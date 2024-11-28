@@ -15,7 +15,7 @@
             <div class="user-profile">
                 <img src="/image/profile-img.png" alt="profile-img">
                 <div class="user-detail">
-                    <h3>Olivia Rodrigo</h3>
+                    <h3><%= firstName %> <%= lastName %></h3>
                     <span>Patient</span>
                 </div>
             </div>
@@ -47,13 +47,107 @@
 
         <!-- Logs Table Section -->
         <section class="logs-section">
-            <h4>Edit Profile</h4>
-            <div class="table-responsive">
-
+            <h1>Welcome, <%= firstName %> <%= lastName %>!</h1>
+        
+            <div class="patient-details">
+                <h2>Profile Details</h2>
+                <p><strong>Full Name:</strong> <%= firstName %> <%= lastName %></p>
+                <p><strong>Gender:</strong> <%= gender %></p>
+                <p><strong>Birthdate:</strong> <%= birthdate %></p>
+                <p><strong>Contact Number:</strong> <%= contactNumber %></p>
+                <p><strong>Address:</strong> <%= address %></p>
+               
             </div>
-            
-            hehheheeheh
+
+          
         </section>
-    </main>
+
+
+<!-- Button to Trigger Modal -->
+<button id="editButton">Edit Details</button>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="closeModal">&times;</span>
+        <h2>Edit Profile</h2>
+        <form id="editForm" action="/patient/edit" method="POST">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" value="<%= firstName %>" required>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" value="<%= lastName %>" required>
+
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" required>
+                <option value="Male" <%= gender === 'Male' ? 'selected' : '' %>>Male</option>
+                <option value="Female" <%= gender === 'Female' ? 'selected' : '' %>>Female</option>
+            </select>
+
+            <label for="birthdate">Birthdate:</label>
+            <input type="date" id="birthdate" name="birthdate" value="<%= birthdate %>" required>
+
+          
+
+            <label for="ContactNumber">Contact Number:</label>
+            <input type="text" 
+                   value="<%= contactNumber %>" 
+                   id="contactNumber" 
+                   name="contactNumber" 
+                   pattern="[0-9]{11}" 
+                   maxlength="11" 
+                   minlength="11" 
+                   required 
+                   title="Contact number must be exactly 11 digits (e.g., 09123456789)">
+    
+                   <label for="address">Address:</label>
+                   <select id="address" name="address" required>
+                       <option value="Purok-1" <%= address === 'Purok-1' ? 'selected' : '' %>>Purok-1</option>
+                       <option value="Purok-2" <%= address === 'Purok-2' ? 'selected' : '' %>>Purok-2</option>
+                       <option value="Purok-3" <%= address === 'Purok-3' ? 'selected' : '' %>>Purok-3</option>
+                       <option value="Purok-4" <%= address === 'Purok-4' ? 'selected' : '' %>>Purok-4</option>
+                       <option value="Purok-5" <%= address === 'Purok-5' ? 'selected' : '' %>>Purok-5</option>
+                       <option value="Purok-6" <%= address === 'Purok-6' ? 'selected' : '' %>>Purok-6</option>
+                       <option value="Purok-7" <%= address === 'Purok-7' ? 'selected' : '' %>>Purok-7</option>
+                       <option value="Purok-8" <%= address === 'Purok-8' ? 'selected' : '' %>>Purok-8</option>
+                       <option value="Purok-9" <%= address === 'Purok-9' ? 'selected' : '' %>>Purok-9</option>
+                       <option value="Purok-10" <%= address === 'Purok-10' ? 'selected' : '' %>>Purok-10</option>
+                       <option value="Purok-11" <%= address === 'Purok-11' ? 'selected' : '' %>>Purok-11</option>
+                   </select>
+                   
+            <br>
+            
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</div>
+        
+</main>
+
+<!-- Modal Script -->
+<script>
+    const modal = document.getElementById("editModal");
+    const editButton = document.getElementById("editButton");
+    const closeModal = document.getElementById("closeModal");
+
+    // Show the modal when "Edit Details" button is clicked
+    editButton.addEventListener("click", () => {
+        modal.style.display = "flex";
+    });
+
+    // Close the modal when the close button is clicked
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    // Close the modal when clicking outside of the modal content
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+</script>
+
+    
 </body>
 </html>

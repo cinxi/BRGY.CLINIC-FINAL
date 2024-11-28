@@ -143,9 +143,6 @@ const login_staff = (req, res) => {
 
 
 
-//  SA PATIENT
-
-
 
 module.exports = {
     login_view,

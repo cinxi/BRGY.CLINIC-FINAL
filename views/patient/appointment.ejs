@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment</title>
+    <title>Book Appointment</title>
     <!-- Linking Google Font Link For Icons --> 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/css/patient/appointment.css"> <!-- Link to your logs.css -->
@@ -51,9 +51,119 @@
             <div class="table-responsive">
 
             </div>
-            
-            hehheheeheh
+
+            <!-- Button to Open the Modal -->
+<button id="openAppointmentModal" class="btn btn-primary">Schedule New Appointment</button>
+
+
+
+
+        <!-- Appointment Form Modal -->
+<div id="appointmentModal" class="modal">
+    
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h3>Schedule New Appointment</h3>
+
+        <form action="/add-appointment" method="POST">
+            <div class="form-group">
+                <label for="appointment_date">Appointment Date:</label>
+                <input type="date" name="Appointment_Date" id="appointment_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="appointment_time">Appointment Time:</label>
+                <input type="time" name="Appointment_Time" id="appointment_time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="appointment_purpose">Appointment Purpose:</label>
+                <input type="text" name="Appointment_Purpose" id="appointment_purpose" required>
+            </div>
+
+            <div class="form-group">
+                <label for="Appointment_Status">Appointment Status:</label>
+                <input name="Appointment_Status" type="text" class="form-control" id="Appointment_Status" value="Scheduled" readonly>
+            </div>
+
+            <button type="submit" class="btn btn-success">Add Appointment</button>
+        </form>
+    </div>
+</div>
+
+
+
+<!-- Existing Appointments -->
+<div class="appointment-table">
+    <div class="table-responsive">
+        <table class="reports-table">
+            <thead>
+                <tr>
+                   
+                    <th>Appointment Date</th>
+                    <th>Appointment Time</th>
+                    <th>Purpose</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- This will be populated dynamically -->
+                <% appointments.forEach(function(appointment) { %>
+                    <tr>
+                      
+                        
+                        <td>
+                            <%= new Date(appointment.Appointment_Date).toLocaleDateString("en-US", { 
+                                month: "2-digit", 
+                                day: "2-digit", 
+                                year: "numeric" 
+                            }) %>
+                        </td>
+                        
+                        
+                        
+                        <td><%= appointment.Appointment_Time %></td>
+                        <td><%= appointment.Appointment_Purpose %></td>
+                        <td><%= appointment.Appointment_Status %></td>
+                        <td>
+                            <button class="btn btn-edit">Edit</button>
+                            <button class="btn btn-danger">Cancel</button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
         </section>
     </main>
+
+    <script>
+        // Get modal element and button
+        const modal = document.getElementById('appointmentModal');
+        const openModalBtn = document.getElementById('openAppointmentModal');
+        const closeModalBtn = document.getElementById('closeModal');
+    
+        // Open the modal
+        openModalBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+    
+        // Close the modal
+        closeModalBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+    
+        // Close the modal if user clicks outside of it
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    
 </body>
 </html>

@@ -186,8 +186,8 @@
         </div>
    </main>
 
-
-<!-- Edit User Modal -->
+<!-- 
+// Edit user modal -->
 
 <div id="editUserModal" class="modal">
     <div class="modal-content">
@@ -205,9 +205,19 @@
                 <input name="firstName_data" type="text" class="form-control" id="editFirstName" required>
             </div>
         
+
             <div class="form-group">
-                <label for="editContactNumber">Contact Number:</label>
-                <input type="tel" class="form-control" id="editContactNumber" name="contactNumber_data" required>
+            <label for="editContactNumber">Contact Number:</label>
+            <input type="tel" 
+                 
+                   id="editContactNumber" 
+                   name="contactNumber_data" 
+                   pattern="[0-9]{11}" 
+                   maxlength="11" 
+                   minlength="11" 
+                   required 
+                   title="Contact number must be exactly 11 digits (e.g., 09123456789)">
+    
             </div>
         
             <div class="form-group">

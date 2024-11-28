@@ -33,7 +33,7 @@
             <li><a href="Staffdashboard"><span class="material-icons">dashboard</span>Dashboard</a></li>
             <li><a href="appointment"><span class="material-icons">today</span>Appointments</a></li>
             <li><a href="patients"><span class="material-icons">groups</span>Patients Record</a></li>
-            <li><a href="/login"><span class="material-icons">logout</span>Logout</a></li> 
+            <li><a href="login"><span class="material-icons">logout</span>Logout</a></li> 
         </ul>
     </aside>
   
@@ -146,7 +146,7 @@
                                         <!-- Edit Button: Trigger modal with existing data -->
                                         <button class="btn btn-edit" onclick="openEditModal( '<%= appointment.id %>', '<%= appointment.date %>', '<%= appointment.time %>',  '<%= appointment.status %>')">Edit</button>
                                         <!-- Delete Button: Redirect to delete route -->
-                                        <a href="/staff/deleteAppointment/<%= appointment.id %>" onclick="return confirm('Are you sure you want to cancel this appointment?')" class="btn btn-danger">Cancel</a>
+                                        <a href="/staff/deleteAppointment/<%= appointment.id %>" onclick="return confirm('Are you sure you want to cancel this appointment?')" class="btn btn-danger">Delete</a>
                                     </td>
                                 </tr>
                             <% }); %>

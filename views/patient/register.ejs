@@ -60,11 +60,44 @@
             </div>
 
             <div class="right-group">
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <select class="form-control" name="address_data" id="address" required>
+                    <option value="">Select Purok</option>
+                    <option value="Purok-1">Purok-1</option>
+                    <option value="Purok-2">Purok-2</option>
+                    <option value="Purok-3">Purok-3</option>
+                    <option value="Purok-4">Purok-4</option>
+                    <option value="Purok-5">Purok-5</option>
+                    <option value="Purok-6">Purok-6</option>
+                    <option value="Purok-7">Purok-7</option>
+                    <option value="Purok-8">Purok-8</option>
+                    <option value="Purok-9">Purok-9</option>
+                    <option value="Purok-10">Purok-10</option>
+                    <option value="Purok-11">Purok-11</option>
+                </select>
+            </div>
+            
+
+
+            <div class="right-group">
+                
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <input name="status" type="text" class="form-control" id="status" value="Active" readonly>
+            </div>
+
+            </div>
+            
+            <div class="right-group">
                 <div class="form-group">
                     <label for="Username">Username</label>
                     <input name="Username_data" type="text" class="form-control" id="Username" required>
                 </div>
-                  
+               
+                </div>
+
                 <div class="form-group">
                     <label for="Password">Password</label>
                     <input name="Password_data" type="password" class="form-control" id="Password" required>
@@ -81,7 +114,7 @@
 
         <button type="submit" class="btn btn-primary btn-block">Register</button>
         <br>
-        <a href="/login"> Already have an account?</a>
+        <a href="login"> Already have an account?</a>
 
     </form>
 </div>

@@ -85,7 +85,6 @@ router.get("/staff/deleteAppointment/:id", appointmentController.deleteAppointme
 
 
 
-
 // GET route to display staff login page
 router.get("/staff/login", userController.login_staff_view);
 
