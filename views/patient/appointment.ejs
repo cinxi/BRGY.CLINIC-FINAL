@@ -15,7 +15,7 @@
             <div class="user-profile">
                 <img src="/image/profile-img.png" alt="profile-img">
                 <div class="user-detail">
-                    <h3>Olivia Rodrigo</h3>
+                    <h3><%= firstName %> <%= lastName %></h3>
                     <span>Patient</span>
                 </div>
             </div>
@@ -42,22 +42,15 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="sticky-header">
-            <!-- <h2>Logs</h2> -->
+            <h4>Book Appointment</h4>
         </div>
 
-        <!-- Logs Table Section -->
-        <section class="logs-section">
-            <h4>Book Appointment</h4>
-            <div class="table-responsive">
-
-            </div>
-
+        <div>
             <!-- Button to Open the Modal -->
-<button id="openAppointmentModal" class="btn btn-primary">Schedule New Appointment</button>
+            <button id="openAppointmentModal" class="btn btn-success"> Add  Appointment</button>
+     </div>
 
-
-
-
+<br>
         <!-- Appointment Form Modal -->
 <div id="appointmentModal" class="modal">
     
@@ -83,7 +76,7 @@
 
             <div class="form-group">
                 <label for="Appointment_Status">Appointment Status:</label>
-                <input name="Appointment_Status" type="text" class="form-control" id="Appointment_Status" value="Scheduled" readonly>
+                <input name="Appointment_Status" type="text" class="form-control" id="Appointment_Status" value="Pending" readonly>
             </div>
 
             <button type="submit" class="btn btn-success">Add Appointment</button>

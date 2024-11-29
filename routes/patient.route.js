@@ -6,34 +6,55 @@ const patientController = require("../controller/patient.controller.js");
 
 const router = express.Router();
 
+// Middleware to fetch and set patient details for routes
+const fetchPatientDetails = async (req, res, next) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.redirect("/patient/login");
+    }
+
+    try {
+        const jwt = require("jsonwebtoken");
+        const models = require("../models");
+        const decoded = jwt.verify(token, "your_secret_key");
+
+        const patient = await models.Patient.findOne({ where: { Patient_ID: decoded.id } });
+
+        if (!patient) {
+            return res.redirect("/patient/login");
+        }
+
+        res.locals.firstName = patient.Patient_FirstName || "N/A";
+        res.locals.lastName = patient.Patient_LastName || "N/A";
+
+        next();
+    } catch (error) {
+        console.error("Error fetching patient details:", error.message);
+        res.redirect("/patient/login");
+    }
+};
+
 // Patient Routes
 
-router.get("/patient/login", patientController.login_view); // Route to render the login page
-router.post("/login-patient", patientController.loginPatient); // Route to handle login form submission
+router.get("/patient/login", patientController.login_view);
+router.post("/login-patient", patientController.loginPatient);
 
+router.get("/patient/register", patientController.register_view);
 
-router.get("/patient/register", patientController.register_view); 
-
-
-router.get("/patient/profile", patientController.profile_view); 
-router.get("/patient/appointment", patientController.appointment_view); 
-router.get("/patient/history", patientController.history_view);
+router.get("/patient/profile", patientController.profile_view);
+router.get("/patient/appointment", fetchPatientDetails, patientController.appointment_view);
+router.get("/patient/history", fetchPatientDetails, patientController.history_view);
 router.get("/patient/logout", patientController.logout);
 
-// New route for registering a patient
 router.get("/register-patient", (req, res) => {
-    res.render("patient/register");  // Render the registration form
+    res.render("patient/register"); // Render the registration form
 });
+router.post("/register-patient", patientController.registerPatient);
 
-router.post("/register-patient", patientController.registerPatient);  // Handle patient registration form submission
-
-// Edit Profile - Display Form
 router.get("/patient/edit", patientController.editProfile_view);
-
-// Edit Profile - Handle Form Submission
 router.post("/patient/edit", patientController.editProfile);
 
-
-router.post("/add-appointment", patientController.addAppointment); // Handle new appointment submission
+router.post("/add-appointment", patientController.addAppointment);
 
 module.exports = router;

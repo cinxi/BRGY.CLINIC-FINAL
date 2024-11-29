@@ -15,10 +15,32 @@ const register_view = (req, res) => {
 
 
 
+const history_view = async (req, res) => {
+    const token = req.cookies.token;
 
-const history_view = (req, res) => {
-    res.render("patient/history");
+    if (!token) {
+        return res.redirect("/patient/login");
+    }
+
+    try {
+        const decoded = jwt.verify(token, "your_secret_key");
+        const user = await models.Patient.findOne({ where: { Patient_ID: decoded.id } });
+
+        if (!user) {
+            res.clearCookie("token");
+            return res.redirect("/patient/login");
+        }
+
+        res.render("patient/history", {
+            firstName: user.Patient_FirstName || "N/A",
+            lastName: user.Patient_LastName || "N/A",
+        });
+    } catch (error) {
+        console.error(error);
+        res.redirect("/patient/login");
+    }
 };
+
 
 const logout = (req, res) => {
     res.cookie("token", "", { maxAge: 1000 });
@@ -76,13 +98,13 @@ const loginPatient = async (req, res) => {
         // Check if the user exists
         const user = await models.Patient.findOne({ where: { Username } });
         if (!user) {
-            return res.render("patient/login", { message: "Invalid username or password." });
+            return res.render("patient/login", { message: "Invalid username." });
         }
 
         // Verify the password
         const isMatch = await bcrypt.compare(Password, user.Password);
         if (!isMatch) {
-            return res.render("patient/login", { message: "Invalid username or password." });
+            return res.render("patient/login", { message: "Incorrect password." });
         }
 
         // Generate a JWT token with Patient_ID
@@ -274,7 +296,7 @@ const addAppointment = async (req, res) => {
             Appointment_Date: req.body.Appointment_Date,
             Appointment_Time: req.body.Appointment_Time,
             Appointment_Purpose: req.body.Appointment_Purpose,
-            Appointment_Status: "Scheduled"
+            Appointment_Status: "Pending"
         });
 
         res.redirect("/patient/appointment");
