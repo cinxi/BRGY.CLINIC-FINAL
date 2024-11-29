@@ -57,4 +57,7 @@ router.post("/patient/edit", patientController.editProfile);
 
 router.post("/add-appointment", patientController.addAppointment);
 
+
+
+
 module.exports = router;

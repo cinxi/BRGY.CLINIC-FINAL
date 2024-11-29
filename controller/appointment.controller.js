@@ -46,11 +46,7 @@ const appointment_view = async (req, res) => {
         status: appointment.Appointment_Status
     };
 });
-        
-
-
-        
-
+    
         res.render("staff/appointment", { message, patientList, appointmentList });
     } catch (error) {
         console.error("Error fetching patients or appointments:", error);
@@ -84,7 +80,8 @@ const save_addAppointment = (req, res) => {
         });
 };
 
-// View for editing an appointment
+
+// View for editing an appointment (edit only status)
 const editAppointment_view = async (req, res) => {
     const appointmentId = req.params.id;
     try {
@@ -115,11 +112,10 @@ const editAppointment_view = async (req, res) => {
     }
 };
 
-
-// Save edited appointment details
+// Save edited appointment status only
 const save_editAppointment = async (req, res) => {
     const appointmentId = req.params.id;
-    const { Appointment_Date, Appointment_Time, Appointment_Status } = req.body;
+    const { Appointment_Status } = req.body;
 
     try {
         const appointment = await models.Appointment.findOne({ where: { Appointment_ID: appointmentId } });
@@ -128,15 +124,13 @@ const save_editAppointment = async (req, res) => {
             return res.redirect("/staff/appointment?message=AppointmentNotFound");
         }
 
-        // Update the appointment with new data
-        appointment.Appointment_Date = Appointment_Date;
-        appointment.Appointment_Time = Appointment_Time;
+        // Update only the status of the appointment
         appointment.Appointment_Status = Appointment_Status;
 
         await appointment.save();
 
-        console.log("Appointment updated successfully");
-        res.redirect("/staff/appointment?message=AppointmentUpdated");
+        console.log("Appointment status updated successfully");
+        res.redirect("/staff/appointment?message=AppointmentStatusUpdated");
     } catch (error) {
         console.error("Error updating appointment:", error);
         res.redirect("/staff/appointment?message=ErrorUpdatingAppointment");
@@ -144,26 +138,26 @@ const save_editAppointment = async (req, res) => {
 };
 
 
-// Delete an appointment by ID
-const deleteAppointment = async (req, res) => {
-    const appointmentId = req.params.id;
-    try {
-        const appointment = await models.Appointment.findOne({ where: { Appointment_ID: appointmentId } });
+// // Delete an appointment by ID
+// const deleteAppointment = async (req, res) => {
+//     const appointmentId = req.params.id;
+//     try {
+//         const appointment = await models.Appointment.findOne({ where: { Appointment_ID: appointmentId } });
 
-        if (!appointment) {
-            return res.redirect("/staff/appointment?message=AppointmentNotFound");
-        }
+//         if (!appointment) {
+//             return res.redirect("/staff/appointment?message=AppointmentNotFound");
+//         }
 
-        // Delete the appointment
-        await appointment.destroy();
+//         // Delete the appointment
+//         await appointment.destroy();
 
-        console.log("Appointment deleted successfully");
-        res.redirect("/staff/appointment?message=AppointmentDeleted");
-    } catch (error) {
-        console.error("Error deleting appointment:", error);
-        res.redirect("/staff/appointment?message=ErrorDeletingAppointment");
-    }
-};
+//         console.log("Appointment deleted successfully");
+//         res.redirect("/staff/appointment?message=AppointmentDeleted");
+//     } catch (error) {
+//         console.error("Error deleting appointment:", error);
+//         res.redirect("/staff/appointment?message=ErrorDeletingAppointment");
+//     }
+// };
 
 
 
@@ -172,7 +166,7 @@ module.exports = {
     save_addAppointment,
     editAppointment_view,
     save_editAppointment,
-    deleteAppointment,
+    // deleteAppointment,
     
     
 

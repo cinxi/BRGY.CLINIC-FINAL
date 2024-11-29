@@ -80,8 +80,8 @@ router.get("/staff/editAppointment/:id", appointmentController.editAppointment_v
 // Route to update an appointment (POST)
 router.post("/staff/editAppointment/:id", appointmentController.save_editAppointment);
 
-// Route to delete an appointment (GET)
-router.get("/staff/deleteAppointment/:id", appointmentController.deleteAppointment);
+// // Route to delete an appointment (GET)
+// router.get("/staff/deleteAppointment/:id", appointmentController.deleteAppointment);
 
 
 
