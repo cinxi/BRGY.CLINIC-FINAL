@@ -4,6 +4,10 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 
+const landing_view = (req, res) => {
+    res.render("patient/landing");
+};
+
 const login_view = (req, res) => {
     res.render("patient/login", { message: null }); // Render the login page with no initial message
 };
@@ -162,6 +166,7 @@ const profile_view = async (req, res) => {
             contactNumber: patient.Patient_ContactNumber || "N/A",
             address: patient.Patient_Address || "N/A",
             status: patient.Patient_Status || "N/A",
+            username: patient.Username || "N/A",
         });
 
     } catch (error) {
@@ -335,6 +340,44 @@ const appointment_view = async (req, res) => {
 };
 
 
+const rescheduleAppointment = async (req, res) => {
+    try {
+        const { appointmentId, newDate, newTime } = req.body;
+
+        // Update the appointment in the database
+        await models.Appointment.update(
+            {
+                Appointment_Date: newDate,
+                Appointment_Time: newTime,
+                Appointment_Status: "Reschedule",
+            },
+            { where: { Appointment_ID: appointmentId } }
+        );
+
+        res.redirect("/patient/appointment");
+    } catch (error) {
+        console.error(error);
+        res.redirect("/patient/appointment");
+    }
+};
+
+const cancelAppointment = async (req, res) => {
+    try {
+        const appointmentId = req.body.appointmentId;
+
+        // Update appointment status to 'Cancelled'
+        await models.Appointment.update(
+            { Appointment_Status: "Cancelled" },
+            { where: { Appointment_ID: appointmentId } }
+        );
+
+        res.redirect("/patient/appointment");
+    } catch (error) {
+        console.error("Error cancelling appointment:", error);
+        res.redirect("/patient/appointment");
+    }
+};
+
 
 
 module.exports = {
@@ -350,7 +393,10 @@ module.exports = {
     editProfile,
     editProfile_view,
     getAppointments,
-    addAppointment
+    addAppointment,
+    rescheduleAppointment,
+    cancelAppointment,
+    landing_view
 
 
 };

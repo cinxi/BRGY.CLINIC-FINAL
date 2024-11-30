@@ -44,13 +44,26 @@
             <h4>Patients Record</h4>       
         </div>
 
-        <!-- Add Search Field -->
-        <div class="add-search">
-            <div class="search-container">
-                <span class="material-icons search-icon">search</span>
-                <input type="text" id="searchInput" placeholder="Search">
-            </div>
-        </div>
+
+
+        
+    <!-- Add Search Field and Filter -->
+<div class="add-search">
+    <div class="search-container">
+        <span class="material-icons search-icon">search</span>
+        <input type="text" id="searchInput" placeholder="Search">
+    </div>
+
+
+    <div class="filter-container">
+        <label for="statusFilter">Filter by Status:</label>
+        <select id="statusFilter">
+            <option value="all">All</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+    </div>
+</div>
 
         <!-- Patient Records Table -->
         <div class="patient-table">
@@ -90,6 +103,7 @@
                                         <button class="btn btn-edit" onclick="openEditStatusModal('<%= patient.Patient_ID %>', '<%= patient.Patient_Status %>')">
                                             Edit Status
                                         </button>
+
                                     </td>
                                     
                                 </td>
@@ -120,7 +134,29 @@
         
     </main>
 
-    <script>
+
+
+<script>
+ 
+
+    // SEARCH Filter functionality
+    document.getElementById("statusFilter").addEventListener("change", function () {
+        const filterValue = this.value;
+        const rows = document.querySelectorAll("#patientTableBody tr");
+
+        rows.forEach((row) => {
+            const statusCell = row.querySelector("td:nth-child(8)"); // Assuming Status is the 8th column
+            if (filterValue === "all") {
+                row.style.display = "";
+            } else if (statusCell && statusCell.textContent === filterValue) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+
+   
         // JavaScript for editing and searching functionality remains unchanged
 
         function openEditStatusModal(patientId, currentStatus) {
@@ -140,6 +176,9 @@
                 document.getElementById("editPatientModal").style.display = "none";
             }
         };
+
+
+        //SEARCH
 
         document.getElementById("searchInput").addEventListener("keyup", function () {
             const filter = this.value.toLowerCase();

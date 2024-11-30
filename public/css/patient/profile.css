@@ -189,42 +189,8 @@ body {
     cursor: pointer;
 }
 
-.btn-success {
-    margin-top: 20px; /* Adjust the value as needed */
-}
-
-.btn-add {
-    background-color: #176B87; 
-    color: white;
-    height: 40px;
-    font-size: 0.8em;
-    align-items: center;
-    display: flex;
-}
-
-.btn-add span{
-    margin-right: 10px;
-}
-
-.btn-edit {
-    background-color: #007bff; 
-    color: white;
-    font-size: x-small;
-}
 
 
-.btn-danger {
-    background-color: #dc3545; 
-    color: white;
-    font-size: x-small;
-    text-decoration: none;
-}
-
-
-table{
-    font-size: small;
-    text-align: center;
-}
 
 /*horizontal scroll */
 .table-responsive {
@@ -516,8 +482,160 @@ form button:hover {
     float: right;
     font-size: 1.5em;
     cursor: pointer;
+    color: #888;
 }
 
 .close-button:hover {
-    color: red;
+    color: black;
+}
+
+
+
+
+.main-content {
+    background-color: #ffffff;
+    height: 85vh;
+    width: 85%;
+    overflow: hidden;
+    border-radius: 15px;
+    margin-left: 10%;
+    margin-top: 6%;
+    padding: 40px 50px;
+    
+}
+.profile-section{
+    /* text-align: center; */
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.profile-image img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    /* padding: 15px; */
+}
+.view-profile-card{
+    padding: 50px 50px;
+    border-radius: 8px;
+}
+.top-profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+.top-profile div:last-child{
+    margin-left: auto;
+}
+.top-profile h4{
+    font-size: 1.5rem;
+    color: var(--base-color);
+}
+
+.edit-profile-card {
+    /* background-color: #f8f9fa; */
+    border-radius: 8px;
+}
+.view-profile-card, .edit-profile-card{
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.view-profile-card p {
+    font-size: 0.9rem;
+    color: var(--base-color);
+}
+
+.info-profile{
+    margin-top: 20px;
+    color: var(--base-color);
+}
+    
+form input, .info-profile input{
+    padding: 10px 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.sidebar:hover + .main-content {
+    margin-left: 280px; 
+    width: 70%;
+}
+
+
+/* Button styling */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-success {
+    margin-top: 20px; 
+}
+
+.hidden {
+    display: none;
+}
+
+
+form label {
+    font-size: 0.7rem;
+    margin: 10px 0 5px;
+    text-align: left; 
+    display: block;
+}
+
+form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid var(--base-color);
+    border-radius: 4px;
+}
+
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+.btn-edit {
+    color: var(--base-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;  
+    padding: 0;                    
+    border: none;           
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn-edit span{
+    margin-left: 5px;
+}
+
+.btn-edit:hover, .btn-edit span:hover {
+    transform: scale(1.2);
+    color: #AEA59D;
+}
+
+.btn-edit .material-symbols-outlined{
+    font-size: 20px;
+    color: var(--base-color);
+}
+
+.material-symbols-outlined {
+    color: white;
+
 }

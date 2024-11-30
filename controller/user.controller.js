@@ -7,6 +7,11 @@ const models = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+
+const landing_view = (req, res) => {
+    res.render("staff/landing");
+};
+
 const login_view = (req, res) => {
     const message = req.query.message || null;
     res.render("login", { message });
@@ -145,6 +150,7 @@ const login_staff = (req, res) => {
 
 
 module.exports = {
+    landing_view,
     login_view,
     register_view,
     save_user,
@@ -152,5 +158,6 @@ module.exports = {
     addUser_view,
     login_staff,
     login_staff_view
+
 
 };

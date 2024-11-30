@@ -34,6 +34,9 @@ const router = express.Router()
 
 
 //get
+
+router.get("/staff/landing", userController.landing_view   ) 
+
 router.get("/login", userController.login_view   ) 
 router.get("/register", userController.register_view )
 
@@ -92,6 +95,11 @@ router.get("/staff/login", userController.login_staff_view);
 router.post("/staff/login-staff", userController.login_staff);
 
 
+// Route for approving appointment
+router.get('/staff/approveAppointment/:id', appointmentController.approveAppointment);
+
+// Route for marking appointment as complete
+router.get('/staff/markAsComplete/:id', appointmentController.markAsComplete);
 
 module.exports = router
 

@@ -9,7 +9,11 @@ const bcrypt = require("bcrypt");
 
 
 
-// Other controller 
+// Other controller
+
+const landing_view = (req, res) => {
+    res.render("admin/landing");
+};
 const Admindashboard_view = (req, res) => {
     res.render("admin/Admindashboard");
 };
@@ -166,5 +170,6 @@ module.exports = {
     editUser,
     updateUser,
     // deleteUser,
+    landing_view
     
 };

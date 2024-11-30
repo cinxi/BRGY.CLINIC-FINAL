@@ -178,6 +178,15 @@ body {
 }
 
 
+.sticky-header h4 {
+    font-size: 1.40rem;
+    color: #176B87;
+    margin-bottom: 15px;
+    margin-left: 20px;
+}
+
+
+
 /* Button styling */
 .btn {
     padding: 10px 15px;
@@ -477,14 +486,44 @@ form button:hover {
     font-size: 0.9rem;
     border-radius: 5px;
     border: 1px solid #ccc;
-    width: 250px;
+    width: 500px;
 }
 
 
 
 
-.sticky-header h4 {
-    font-size: 1.25rem;
-    color: #176B87;
-    margin-bottom: 15px;
+/* Filter Container */
+.filter-container {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Label Styling */
+.filter-container label {
+    font-size: small;
+    margin-right: 10px;
+    
+}
+
+/* Dropdown Styling */
+#statusFilter {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 180px;
+}
+
+/* Styling for the dropdown when focused */
+#statusFilter:focus {
+    outline: none;
+    border-color: #176B87;; /* Change the border color when focused */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Add a light shadow for focus */
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #176B87;; /* Change the border color when focused */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Add a light shadow for focus */
 }

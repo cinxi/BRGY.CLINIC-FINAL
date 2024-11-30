@@ -45,6 +45,22 @@
                 <span class="material-icons search-icon">search</span>
                 <input type="text" id="searchInput" placeholder="Search">
             </div>
+
+                <!-- Status Filter Dropdown -->
+        <div class="filter-container">
+            <label for="statusFilter">Filter by Status:</label>
+            <select id="statusFilter">
+                <option value="All">All</option>
+                <option value="Approved">Approved</option>
+                <option value="Pending">Pending</option>
+                <option value="Reschedule">Reschedule</option>
+                <option value="Cancelled">Cancelled</option>
+
+            </select>
+        </div>
+
+        
+    </div>
         </div>
 
         <!-- Existing Appointments -->
@@ -65,21 +81,35 @@
                     <tbody id="appointmentTableBody">
                         <% if (appointmentList && appointmentList.length > 0) { %>
                             <% appointmentList.forEach(appointment => { %>
-                                <tr>
-                                    <td><%= appointment.id %></td>
-                                    <td><%= appointment.patientName %></td>
-                                    <td><%= new Date(appointment.date).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }) %></td>
-                                    <td><%= appointment.time %></td>
-                                    <td><%= appointment.purpose %></td>
-                                    <td><%= appointment.status %></td>
-                                    <td>
-                                        <!-- Edit Button: Trigger modal with status editing data -->
-                                        <button class="btn btn-edit" onclick="openEditModal('<%= appointment.id %>', '<%= appointment.status %>')">Edit Status</button>
-                                        
-                                        <!-- Delete Button: Redirect to delete route -->
-                                        <!-- <a href="/staff/deleteAppointment/" onclick="return confirm('Are you sure you want to cancel this appointment?')" class="btn btn-danger">Delete</a> -->
-                                    </td>
-                                </tr>
+                                <% if (appointment.status !== "Completed") { %> <!-- Exclude "Completed" appointments -->
+                                    <tr>
+                                        <td><%= appointment.id %></td>
+                                        <td><%= appointment.patientName || 'N/A' %></td>
+                                        <td><%= new Date(appointment.date).toLocaleDateString("en-US", { 
+                                                month: "2-digit", 
+                                                day: "2-digit", 
+                                                year: "numeric" 
+                                            }) || 'N/A' %></td>
+                                        <td><%= new Intl.DateTimeFormat('en-US', { 
+                                                hour: '2-digit', 
+                                                minute: '2-digit', 
+                                                hour12: true 
+                                            }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
+                                        <td><%= appointment.purpose || 'N/A' %></td>
+                                        <td><%= appointment.status || 'N/A' %></td>
+                                        <td>
+                                            <!-- Approve button -->
+                                            <a href="/staff/approveAppointment/<%= appointment.id %>">
+                                                <button class="btn btn-approve">Approve</button>
+                                            </a>
+                    
+                                            <!-- Mark as Complete button -->
+                                            <a href="/staff/markAsComplete/<%= appointment.id %>">
+                                                <button class="btn btn-complete">Mark as Complete</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <% } %>
                             <% }); %>
                         <% } else { %>
                             <tr>
@@ -87,6 +117,7 @@
                             </tr>
                         <% } %>
                     </tbody>
+                    
                 </table>
             </div>
         </div>
@@ -113,26 +144,57 @@
         </div>
     </div>
 
-    <!-- JavaScript for Edit Appointment Modal -->
-    <script>
-        // Open the Edit Appointment Modal with existing status
-        function openEditModal(id, status) {
-            document.getElementById("edit_appointment_status").value = status;
-            document.getElementById("editAppointmentForm").action = "/staff/editAppointment/" + id;
+    
+    
+    
 
-            // Show the modal
-            document.getElementById("editAppointmentModal").style.display = "block";
+    <script>
+        // Search functionality
+        document.getElementById("searchInput").addEventListener("keyup", function () {
+            filterTable();
+        });
+    
+        // Filter by Status functionality
+        document.getElementById("statusFilter").addEventListener("change", function () {
+            filterTable();
+        });
+    
+        function filterTable() {
+            const searchFilter = document.getElementById("searchInput").value.toLowerCase();
+            const statusFilter = document.getElementById("statusFilter").value;
+            const rows = document.querySelectorAll("#appointmentTableBody tr");
+    
+            rows.forEach((row) => {
+                const cells = row.querySelectorAll("td");
+                const status = cells[5]?.textContent.trim();
+                const matchesSearch = Array.from(cells).some((cell) =>
+                    cell.textContent.toLowerCase().includes(searchFilter)
+                );
+                const matchesStatus = (statusFilter === "All" || status === statusFilter);
+    
+                row.style.display = matchesSearch && matchesStatus ? "" : "none";
+            });
         }
 
-        document.getElementById("closeEditModal").onclick = function() {
-            document.getElementById("editAppointmentModal").style.display = "none";
-        };
+    
 
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("editAppointmentModal")) {
-                document.getElementById("editAppointmentModal").style.display = "none";
-            }
-        };
+    // <!-- JavaScript for Edit Appointment Modal -->
+  
+    function openEditModal(id, status) {
+    document.getElementById("edit_appointment_status").value = status || "Pending";
+    document.getElementById("editAppointmentForm").action = `/staff/editAppointment/${id}`;
+    document.getElementById("editAppointmentModal").style.display = "block";
+}
+
+document.getElementById("closeEditModal").onclick = function() {
+    document.getElementById("editAppointmentModal").style.display = "none";
+};
+
+window.onclick = function(event) {
+    if (event.target == document.getElementById("editAppointmentModal")) {
+        document.getElementById("editAppointmentModal").style.display = "none";
+    }
+};
 
         // Search functionality
         document.getElementById("searchInput").addEventListener("keyup", function () {

@@ -5,23 +5,21 @@ const models = require("../models");
 
 
 // Fetch patients and render the appointment view
-
 const appointment_view = async (req, res) => {
     const message = req.query.message || null;
 
     try {
-        // Fetch patients' first and last names along with their IDs
+        // Fetch patients' data
         const patients = await models.Patient.findAll({
             attributes: ['Patient_ID', 'Patient_FirstName', 'Patient_LastName']
         });
 
-        // Format the data for dropdown
         const patientList = patients.map(patient => ({
             id: patient.Patient_ID,
             name: `${patient.Patient_FirstName} ${patient.Patient_LastName}`
         }));
 
-        // Fetch appointments
+        // Fetch appointments data
         const appointments = await models.Appointment.findAll({
             include: [{
                 model: models.Patient,
@@ -31,23 +29,21 @@ const appointment_view = async (req, res) => {
             attributes: ['Appointment_ID', 'Appointment_Date', 'Appointment_Time', 'Appointment_Purpose', 'Appointment_Status']
         });
 
+        // Format the appointment data
+        const appointmentList = appointments.map(appointment => ({
+            id: appointment.Appointment_ID,
+            patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
+            date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
+            time: appointment.Appointment_Time,
+            purpose: appointment.Appointment_Purpose,
+            status: appointment.Appointment_Status
+        }));
 
-         // Format the appointment data for display
-    const appointmentList = appointments.map(appointment => {
-    const formattedDate = new Intl.DateTimeFormat('en-CA').format(new Date(appointment.Appointment_Date));  // Format as YYYY-MM-DD
-    const formattedTime = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).format(new Date(`1970-01-01T${appointment.Appointment_Time}`));
+        // Debugging logs
+        console.log("Patient List:", patientList);
+        console.log("Appointment List:", appointmentList);
 
-    return {
-        id: appointment.Appointment_ID,
-        patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
-        date: formattedDate,
-        time: formattedTime,
-        purpose: appointment.Appointment_Purpose,
-        status: appointment.Appointment_Status
-    };
-});
-    
-        res.render("staff/appointment", { message, patientList, appointmentList });
+        res.render("staff/appointment", { message, patientList, appointmentList, error: null });
     } catch (error) {
         console.error("Error fetching patients or appointments:", error);
         res.render("staff/appointment", { message, patientList: [], appointmentList: [], error: "Failed to load data" });
@@ -159,6 +155,72 @@ const save_editAppointment = async (req, res) => {
 //     }
 // };
 
+// Approve an appointment
+const approveAppointment = async (req, res) => {
+    const appointmentId = req.params.id;
+    try {
+        const appointment = await models.Appointment.findOne({ where: { Appointment_ID: appointmentId } });
+
+        if (!appointment) {
+            return res.redirect("/staff/appointment?message=AppointmentNotFound");
+        }
+
+        // Update status to "Approved"
+        appointment.Appointment_Status = "Approved";
+        await appointment.save();
+
+        console.log("Appointment approved successfully");
+        res.redirect("/staff/appointment?message=AppointmentApproved");
+    } catch (error) {
+        console.error("Error approving appointment:", error);
+        res.redirect("/staff/appointment?message=ErrorApprovingAppointment");
+    }
+};
+
+// Mark an appointment as completed
+// const markAsComplete = async (req, res) => {
+//     const appointmentId = req.params.id;
+//     try {
+//         const appointment = await models.Appointment.findOne({ where: { Appointment_ID: appointmentId } });
+
+//         if (!appointment) {
+//             return res.redirect("/staff/appointment?message=AppointmentNotFound");
+//         }
+
+//         // Update status to "Completed"
+//         appointment.Appointment_Status = "Completed";
+//         await appointment.save();
+
+//         console.log("Appointment marked as complete");
+//         res.redirect("/staff/appointment?message=AppointmentCompleted");
+//     } catch (error) {
+//         console.error("Error marking appointment as complete:", error);
+//         res.redirect("/staff/appointment?message=ErrorMarkingAppointmentComplete");
+//     }
+// };
+
+
+// Mark an appointment as completed (but keep it in the database)
+const markAsComplete = async (req, res) => {
+    const appointmentId = req.params.id;
+    try {
+        const appointment = await models.Appointment.findOne({ where: { Appointment_ID: appointmentId } });
+
+        if (!appointment) {
+            return res.redirect("/staff/appointment?message=AppointmentNotFound");
+        }
+
+        // Update status to "Completed"
+        appointment.Appointment_Status = "Completed";
+        await appointment.save();
+
+        console.log("Appointment marked as complete");
+        res.redirect("/staff/appointment?message=AppointmentCompleted");
+    } catch (error) {
+        console.error("Error marking appointment as complete:", error);
+        res.redirect("/staff/appointment?message=ErrorMarkingAppointmentComplete");
+    }
+};
 
 
 module.exports = {
@@ -167,6 +229,9 @@ module.exports = {
     editAppointment_view,
     save_editAppointment,
     // deleteAppointment,
+    approveAppointment,
+    markAsComplete
+
     
     
 

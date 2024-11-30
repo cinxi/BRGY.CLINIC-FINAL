@@ -37,6 +37,8 @@ const fetchPatientDetails = async (req, res, next) => {
 
 // Patient Routes
 
+router.get("/patient/landing", patientController.landing_view);
+
 router.get("/patient/login", patientController.login_view);
 router.post("/login-patient", patientController.loginPatient);
 
@@ -56,6 +58,9 @@ router.get("/patient/edit", patientController.editProfile_view);
 router.post("/patient/edit", patientController.editProfile);
 
 router.post("/add-appointment", patientController.addAppointment);
+
+router.post("/reschedule-appointment", patientController.rescheduleAppointment);
+router.post("/cancel-appointment", patientController.cancelAppointment);
 
 
 

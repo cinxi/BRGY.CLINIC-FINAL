@@ -42,9 +42,7 @@
 
     <main class="main-content">
         <div class="sticky-header">
-            <h4>User Management</h4>
-
-            
+            <h4>User Management</h4>    
         </div>
        
 
@@ -61,8 +59,19 @@
                 <span class="material-icons search-icon">search</span>
                 <input type="text" id="searchInput" placeholder="Search">
             </div>
-        </div>
+     
         
+
+           <!-- SEARCH Filter Dropdown -->
+    <div class="filter-container">
+        <label for="statusFilter">Filter by Status:</label>
+        <select id="statusFilter">
+            <option value="All">All</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+    </div>
+</div>
 
         <!-- User Modal -->
         <div id="userModal" class="modal">
@@ -153,7 +162,7 @@
                         <th>Gender</th>
                         <th>Contact Number</th>
                         <th>Username</th>
-                        <th>Status</th>
+                        <th>Status</th>           
                         <th>Action</th>
                   
                     </tr>
@@ -175,9 +184,14 @@
             <td><%= user.Username %></td>
             <td><%= user.Users_Status %></td>
             <td>
-                <a href="/admin/editUser/<%= user.Users_ID %>" class="btn btn-edit">Edit Details</a>
+                <a href="/admin/editUser/<%= user.Users_ID %>" class="btn btn-edit">Edit Details </a>
                 <!-- <a href="/admin/deleteUser/" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a> -->
+
             </td>
+
+        
+
+            
         </tr>
     <% }) %>
 </tbody>
@@ -287,6 +301,21 @@
                 document.getElementById("userModal").style.display = "none";
             }
         };
+
+         // Filter functionality for Active/Inactive status
+    document.getElementById("statusFilter").addEventListener("change", function () {
+        const filter = this.value;
+        const rows = document.querySelectorAll("#userTableBody tr");
+
+        rows.forEach((row) => {
+            const statusCell = row.children[7]; // Assuming the "Status" column is at index 7
+            if (filter === "All" || statusCell.textContent === filter) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
 
         // Search functionality for filtering user table rows
         document.getElementById("searchInput").addEventListener("keyup", function () {

@@ -125,16 +125,57 @@
                         
                         <td><%= appointment.Appointment_Purpose %></td>
                         <td><%= appointment.Appointment_Status %></td>
+
                         <td>
-                            <button class="btn btn-edit">Edit Schedule</button>
-                            <!-- <button class="btn btn-danger">Cancel</button> -->
+                            <button class="btn btn-edit" data-id="<%= appointment.Appointment_ID %>" onclick="openRescheduleModal(this)">Reschedule</button>
+                            <button class="btn btn-cancel" data-id="<%= appointment.Appointment_ID %>">Cancel</button>
+
                         </td>
+                        
                     </tr>
                 <% }); %>
             </tbody>
         </table>
     </div>
 </div>
+
+
+<!-- Reschedule Appointment Modal -->
+<div id="rescheduleModal" class="modal">
+    <div class="modal-content">
+        <span id="closeRescheduleModal" class="close">&times;</span>
+        <h3>Reschedule Appointment</h3>
+        <form action="/reschedule-appointment" method="POST">
+            <input type="hidden" name="appointmentId" id="rescheduleAppointmentId">
+            <div class="form-group">
+                <label for="newDate">New Appointment Date:</label>
+                <input type="date" name="newDate" id="newDate" required>
+            </div>
+            <div class="form-group">
+                <label for="newTime">New Appointment Time:</label>
+                <input type="time" name="newTime" id="newTime" required>
+            </div>
+            <button type="submit" class="btn btn-success">Reschedule</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+        <!-- Cancel Confirmation Modal -->
+        <div id="cancelConfirmationModal" class="modal">
+            <div class="modal-content">
+                <span id="closeCancelModal" class="close">&times;</span>
+                <h3>Are you sure you want to cancel this appointment?</h3>
+                <form id="cancelForm" action="/cancel-appointment" method="POST">
+                    <input type="hidden" id="cancelAppointmentId" name="appointmentId">
+                    <button type="submit" class="btn btn-yes">Yes, Cancel</button>
+                    <button type="button" id="cancelNoBtn" class="btn btn-secondary">No</button>
+                </form>
+            </div>
+        </div>
+
 
 
         </section>
@@ -162,6 +203,69 @@
                 modal.style.display = "none";
             }
         }
+
+
+        // Reschedule Modal
+const rescheduleModal = document.getElementById("rescheduleModal");
+const closeRescheduleModalBtn = document.getElementById("closeRescheduleModal");
+const rescheduleAppointmentId = document.getElementById("rescheduleAppointmentId");
+
+// Open Reschedule Modal
+function openRescheduleModal(button) {
+    const appointmentId = button.getAttribute("data-id");
+    rescheduleAppointmentId.value = appointmentId;
+    rescheduleModal.style.display = "block";
+}
+
+// Close Reschedule Modal
+closeRescheduleModalBtn.onclick = function () {
+    rescheduleModal.style.display = "none";
+};
+
+// Cancel Appointment
+function cancelAppointment(button) {
+    const appointmentId = button.getAttribute("data-id");
+    document.getElementById("cancelAppointmentId").value = appointmentId;
+    document.getElementById("cancelForm").submit();
+}
+
+// Close modal when clicking outside
+window.onclick = function (event) {
+    if (event.target === rescheduleModal) {
+        rescheduleModal.style.display = "none";
+    }
+};
+
+
+// Get modal elements
+const cancelModal = document.getElementById('cancelConfirmationModal');
+const cancelForm = document.getElementById('cancelForm');
+const cancelAppointmentId = document.getElementById('cancelAppointmentId');
+const closeCancelModalBtn = document.getElementById('closeCancelModal');
+const cancelNoBtn = document.getElementById('cancelNoBtn');
+
+// Open the modal for cancel confirmation
+document.querySelectorAll('.btn-cancel').forEach(button => {
+    button.onclick = function () {
+        const appointmentId = this.dataset.id; // Assume the button has a data-id attribute
+        cancelAppointmentId.value = appointmentId;
+        cancelModal.style.display = "block";
+    };
+});
+
+// Close the modal when clicking the 'No' button or the close icon
+closeCancelModalBtn.onclick = cancelNoBtn.onclick = function () {
+    cancelModal.style.display = "none";
+};
+
+// Close the modal if user clicks outside of it
+window.onclick = function (event) {
+    if (event.target === cancelModal) {
+        cancelModal.style.display = "none";
+    }
+};
+
+
     </script>
     
 </body>
