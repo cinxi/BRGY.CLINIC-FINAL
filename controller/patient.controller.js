@@ -1,4 +1,6 @@
 
+
+//patient.controller.ejs
 const models = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -18,7 +20,6 @@ const register_view = (req, res) => {
 };
 
 
-
 const history_view = async (req, res) => {
     const token = req.cookies.token;
 
@@ -35,9 +36,25 @@ const history_view = async (req, res) => {
             return res.redirect("/patient/login");
         }
 
+        // Fetch appointments with statuses 'Cancelled' or 'Completed'
+        const appointments = await models.Appointment.findAll({
+            where: {
+                Patient_ID: decoded.id,
+                Appointment_Status: ['Cancelled', 'Completed']
+            },
+            include: [
+                {
+                    model: models.Patient,
+                    as: "Patient",
+                    attributes: ["Patient_FirstName", "Patient_LastName"]
+                }
+            ]
+        });
+
         res.render("patient/history", {
             firstName: user.Patient_FirstName || "N/A",
             lastName: user.Patient_LastName || "N/A",
+            appointments
         });
     } catch (error) {
         console.error(error);
@@ -311,6 +328,8 @@ const addAppointment = async (req, res) => {
     }
 };
 
+
+
 const appointment_view = async (req, res) => {
     const token = req.cookies.token;
 
@@ -320,19 +339,33 @@ const appointment_view = async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, "your_secret_key");
+        const user = await models.Patient.findOne({ where: { Patient_ID: decoded.id } });
 
-        // Fetch the patient's appointments using their Patient_ID
+        if (!user) {
+            res.clearCookie("token");
+            return res.redirect("/patient/login");
+        }
+
+        // Fetch appointments with statuses 'Approved' or 'Pending' and Reschedule
         const appointments = await models.Appointment.findAll({
-            where: { Patient_ID: decoded.id },
-            include: [{
-                model: models.Patient,
-                as: 'Patient',
-                attributes: ['Patient_FirstName', 'Patient_LastName']
-            }]
+            where: {
+                Patient_ID: decoded.id,
+                Appointment_Status: ['Approved', 'Pending' ,'Reschedule']
+            },
+            include: [
+                {
+                    model: models.Patient,
+                    as: "Patient",
+                    attributes: ["Patient_FirstName", "Patient_LastName"]
+                }
+            ]
         });
-        
 
-        res.render("patient/appointment", { appointments });
+        res.render("patient/appointment", {
+            firstName: user.Patient_FirstName || "N/A",
+            lastName: user.Patient_LastName || "N/A",
+            appointments
+        });
     } catch (error) {
         console.error(error);
         res.redirect("/patient/login");

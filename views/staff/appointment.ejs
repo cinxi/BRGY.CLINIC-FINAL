@@ -30,6 +30,7 @@
             <li><a href="Staffdashboard"><span class="material-icons">dashboard</span>Dashboard</a></li>
             <li><a href="appointment"><span class="material-icons">today</span>Appointments</a></li>
             <li><a href="patients"><span class="material-icons">groups</span>Patients Record</a></li>
+            <li><a href="logs"><span class="material-symbols-outlined">history</span>Logs</a></li>
             <li><a href="login"><span class="material-icons">logout</span>Logout</a></li> 
         </ul>
     </aside>
@@ -97,17 +98,20 @@
                                             }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
                                         <td><%= appointment.purpose || 'N/A' %></td>
                                         <td><%= appointment.status || 'N/A' %></td>
+
                                         <td>
-                                            <!-- Approve button -->
-                                            <a href="/staff/approveAppointment/<%= appointment.id %>">
+                                            <!-- Approve button with confirmation dialog -->
+                                            <a href="/staff/approveAppointment/<%= appointment.id %>"  onclick="return confirmApproveAppointment();">
                                                 <button class="btn btn-approve">Approve</button>
                                             </a>
                     
-                                            <!-- Mark as Complete button -->
-                                            <a href="/staff/markAsComplete/<%= appointment.id %>">
+                                          
+                                            <!-- Mark as Complete button with confirmation dialog -->
+                                            <a href="/staff/markAsComplete/<%= appointment.id %>"  onclick="return confirmMarkAsComplete();">
                                                 <button class="btn btn-complete">Mark as Complete</button>
                                             </a>
                                         </td>
+
                                     </tr>
                                 <% } %>
                             <% }); %>
@@ -145,10 +149,18 @@
     </div>
 
     
-    
-    
-
     <script>
+    // Confirmation dialog for the Approve button
+    function confirmApproveAppointment() {
+        return confirm("Are you sure you want to approve this appointment?");
+    }
+
+    // Confirmation dialog for the Mark as Complete button
+    function confirmMarkAsComplete() {
+        return confirm("Note: Make sure the patient has already completed the appointment.");
+    }
+
+
         // Search functionality
         document.getElementById("searchInput").addEventListener("keyup", function () {
             filterTable();
@@ -178,7 +190,7 @@
 
     
 
-    // <!-- JavaScript for Edit Appointment Modal -->
+//  JavaScript for Edit Appointment Modal 
   
     function openEditModal(id, status) {
     document.getElementById("edit_appointment_status").value = status || "Pending";

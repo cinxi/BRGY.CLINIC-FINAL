@@ -484,9 +484,84 @@ form button:hover {
 }
 
 
-.sticky-header h4 {
-    font-size: 1.25rem;
-    color: #176B87;
-    margin-bottom: 15px;
+
+
+.sticky-header {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
+
+.sticky-header h4 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: small;
+}
+
+table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: 500;
+}
+
+table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Responsive Design for Main Content */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .sticky-header h4 {
+        font-size: 20px;
+    }
+
+    table th, table td {
+        padding: 10px;
+    }
+}
+
+
+
+    /* Filter Dropdown */
+    #status-filter {
+        padding: 8px 8px;
+        font-size: small;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+     
+        background-color: #f4f4f4;
+        color: #333;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 0.3s ease;
+    }
+
+    #status-filter:focus {
+        background-color: #e6e6e6;
+    }
+
+    #status-filter option {
+        padding: 10px;
+    }
 

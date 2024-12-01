@@ -35,6 +35,8 @@ const router = express.Router()
 
 //get
 
+router.get("/staff/logs", userController.logs_view   ) 
+
 router.get("/staff/landing", userController.landing_view   ) 
 
 router.get("/login", userController.login_view   ) 
@@ -100,6 +102,7 @@ router.get('/staff/approveAppointment/:id', appointmentController.approveAppoint
 
 // Route for marking appointment as complete
 router.get('/staff/markAsComplete/:id', appointmentController.markAsComplete);
+
 
 module.exports = router
 

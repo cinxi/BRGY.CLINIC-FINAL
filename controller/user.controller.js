@@ -8,6 +8,11 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 
+
+const logs_view = (req, res) => {
+    res.render("staff/logs");
+};
+
 const landing_view = (req, res) => {
     res.render("staff/landing");
 };
@@ -157,7 +162,8 @@ module.exports = {
     login_user,
     addUser_view,
     login_staff,
-    login_staff_view
+    login_staff_view,
+    logs_view
 
 
 };

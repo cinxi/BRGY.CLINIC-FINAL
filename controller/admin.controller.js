@@ -18,10 +18,17 @@ const Admindashboard_view = (req, res) => {
     res.render("admin/Admindashboard");
 };
 
+const reports_view = (req, res) => {
+    res.render("admin/reports");
+};
+
+
 const logs_view = (req, res) => {
     res.render("admin/logs");
 };
 
+
+//staff
 const Staffdashboard_view = (req, res) => {
     res.render("staff/Staffdashboard");
 };
@@ -33,6 +40,8 @@ const appointment_view = (req, res) => {
 const patients_view = (req, res) => {
     res.render("staff/patients");
 };
+
+
 
 const logout = (req, res) => {
     res.cookie("token", "", { maxAge: 1000 });
@@ -170,6 +179,7 @@ module.exports = {
     editUser,
     updateUser,
     // deleteUser,
-    landing_view
+    landing_view,
+    reports_view
     
 };

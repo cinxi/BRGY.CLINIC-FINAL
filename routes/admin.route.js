@@ -39,6 +39,7 @@ const router = express.Router();
 router.get("/admin/landing", admin_Controller.landing_view);
 router.get("/admin/Admindashboard", admin_Controller.Admindashboard_view);
 router.get("/admin/usermanagement", admin_Controller.usermanagement_view);
+router.get("/admin/reports", admin_Controller.reports_view);
 router.get("/admin/logs", admin_Controller.logs_view);
 
 // Staff Routes
