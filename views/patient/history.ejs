@@ -6,7 +6,6 @@
     <title>Appointment History</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/css/patient/history.css">
- 
 </head>
 <body>
     <div class="header">
@@ -23,7 +22,7 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="/image/logo.png" alt="logo">
+            <img src="/image/brgy-logo.png" alt="logo">
             <h3>Brgy. Clinic Appointment</h3>
         </div>
         <ul class="sidebar-links">
@@ -38,13 +37,13 @@
     <main class="main-content">
         <div class="sticky-header">
             <h4>History</h4>
-            
-            <!-- Filter by status -->
-            <select id="status-filter" onchange="filterAppointments()">
-                <option value="All">All</option>
-                <option value="Cancelled">Cancelled</option>
-                <option value="Completed">Completed</option>
-            </select>
+
+            <!-- Filter Buttons -->
+            <div id="filter-buttons">
+                <button onclick="filterAppointments('All')">All</button>
+                <button onclick="filterAppointments('Completed')">Completed</button>
+                <button onclick="filterAppointments('Cancelled')">Cancelled</button>
+            </div>
         </div>
 
         <!-- Display the appointments history (Cancelled and Completed) -->
@@ -83,11 +82,9 @@
         </table>
     </main>
 
-
     <script>
-        // Function to filter appointments based on status
-        function filterAppointments() {
-            const statusFilter = document.getElementById("status-filter").value;
+        // Function to filter appointments based on button click
+        function filterAppointments(statusFilter) {
             const rows = document.querySelectorAll("table tbody tr");
 
             rows.forEach(row => {

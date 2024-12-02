@@ -104,5 +104,7 @@ router.get('/staff/approveAppointment/:id', appointmentController.approveAppoint
 router.get('/staff/markAsComplete/:id', appointmentController.markAsComplete);
 
 
+router.get('/api/approved-appointments',appointmentController.fetchApprovedAppointments);
+
 module.exports = router
 

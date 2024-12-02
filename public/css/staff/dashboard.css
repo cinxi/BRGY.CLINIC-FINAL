@@ -1,6 +1,4 @@
-/* Importing Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-
 * {
     margin: 0;
     padding: 0;
@@ -8,13 +6,14 @@
     font-family: "Poppins", sans-serif;
 }
 
+/* #7E60BF purple ni*/ 
+
 body {
     min-height: 90vh;
     background-color: #c0d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9f1ff);
 }
 
-/* Header */
 .header {
     display: flex; 
     background: #ffffff;
@@ -25,6 +24,7 @@ body {
     padding: 0 1.5rem; 
     position: fixed; 
     top: 0;
+    /* z-index: 1000;  */
 }
 
 .user-account {
@@ -39,7 +39,7 @@ body {
     color: #176B87;
 }
 
-.user-account img {
+.user-account img{
     width: 30px;
     border-radius: 50%;
 }
@@ -54,14 +54,22 @@ body {
     white-space: nowrap;
 }
 
-.user-account span {
+.user-account span{
     font-size: 0.6rem;
     font-weight: 500;
     display: block;
     margin-top: 0;
 }
 
-/* Sidebar */
+.sidebar:hover .user-account{
+    background: #ffffff2d;
+    border-radius: 4px;
+}
+
+.sidebar-header img {
+    width: 42px;
+    border-radius: 50%;
+}
 .sidebar {
     position: fixed;
     top: 0;
@@ -71,12 +79,12 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
-    background: #176B87;
+    background:#176B87;
     padding: 25px 20px;
     transition: all 0.4s ease;
 }
 
-.sidebar:hover {
+.sidebar:hover{
     width: 260px;
 }
 
@@ -85,12 +93,7 @@ body {
     align-items: center;
 }
 
-.sidebar-header img {
-    width: 42px;
-    border-radius: 50%;
-}
-
-.sidebar-header h3 {
+.sidebar-header h3{
     font-size: 0.9rem;
     font-weight: 700;
     color: #fff;
@@ -103,6 +106,40 @@ body {
     height: 70%;
     overflow-y: auto;
     scrollbar-width: none;
+}
+
+.sidebar-links h4 span{
+    opacity: 0;
+}
+
+.sidebar:hover .sidebar-links h4 span{
+    opacity: 1;
+}
+
+.sidebar-links h4{
+    color: #fff;
+    font-weight: 500;
+    margin: 10px 0;
+    white-space: nowrap;
+    position: relative;
+}
+
+.sidebar-links .menu-separator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    transform: scaleX(1);
+    transform: translateY(-50%);
+    background: #12556b;
+    transform-origin: right;
+    transition-duration: 0.2s;
+}
+
+.sidebar:hover .sidebar-links .menu-separator{
+    transition-delay: 0s;
+    transform: scaleX(0);
 }
 
 .sidebar-links li a {
@@ -123,149 +160,50 @@ body {
     border-radius: 15px;
 }
 
-/* Main Content */
+.sticky-header h4 {
+    font-size: 1.25rem;
+    color: #176B87;
+    margin-bottom: 15px;
+}
+
 .main-content {
     background-color: #ffffff;
-    width: 85%;
-    height: 85vh;
+    max-height: 85vh;
+    width: 85%; 
+    overflow: hidden; 
     border-radius: 15px;
-    padding: 20px;
-    margin-left: 12%;
+    margin-left: 10%; 
     margin-top: 6%;
+    padding: 20px;
     transition: margin-left 0.4s ease;
 }
 
+
 .sidebar:hover + .main-content {
-    margin-left: 300px; 
-    width: 70%;
+    margin-left: 280px; 
 }
 
-.sticky-header h4 {
-    margin-top: 20px;
-    font-size: 1.80rem;
-    color: #176B87;
-    margin-bottom: 15px;
-    margin-left: 20px;
+
+
+
+/* Responsive adjustments */
+@media (max-width: 430px) {
+    .main-content {
+        margin-left: 0;
+    }
+
+    .main-content h2, .main-content h4 {
+        font-size: 1.25rem;
+    }
 }
 
-/* Button Styling */
-.btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-}
 
-.btn-success {
-    margin-top: 20px; 
-}
-
-.btn-primary {
-    background-color: #007bff; 
-    color: white;
-}
-
-.btn-danger {
-    background-color: #dc3545; 
-    color: white;
-}
-
-/* Calendar */
-.calendar-container {
-    background: #eafafff7;
-    background: linear-gradient(to left, #e2e2e2, #176B87);
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    margin-top: 20px;
-    width: 300px;
-}
-
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.calendar-header h2 {
-    font-size: 1.2rem;
-    color: #fefcfc;
-}
-
-.nav-btn {
-    background: #176B87;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.nav-btn:hover {
-    background: #176B87;
-}
-
-.contents{
-    display: flex;
-    gap: 30px;
-    justify-content: center;
-    align-items: center;
-    margin-left: 20px;
-}
-
-.calendar {
-    display: flex;
-    flex-direction: column;
-}
-
-.calendar-days {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    text-align: center;
-    font-weight: bold;
-    color: #ffffff;
-    font-size: 0.8rem;
-    margin-bottom: 10px;
-}
-
-.calendar-dates {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-}
-
-.calendar-dates .date {
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f9f9f9;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    font-size: 0.9rem;
-}
-
-.calendar-dates .date:hover {
-    background: #176B87;
-    color: #fff;
-    transform: scale(1.1);
-}
-
-.date.today {
-    background: #176B87;
-    color: white;
-    font-weight: bold;
-    border: 2px solid #104e62;
-}
-
-/* Responsive Adjustments */
 @media (max-width: 768px) {
+    .main-content {
+        margin-left: 85px;
+        margin-top: 8%;
+    }
+
     .sidebar {
         width: 60px;
     }
@@ -274,50 +212,73 @@ body {
         width: 200px;
     }
 
-    .main-content {
-        margin-left: 100px; 
-        width: calc(100% - 100px);
-    }
-
-    .sidebar:hover + .main-content {
-        margin-left: 200px;
-        width: calc(100% - 200px);
-    }
-
-    .calendar-container {
-        width: 100%;
+    .reports-table {
+        min-width: 800px;
     }
 }
 
 
-/* Appointment Table */
-.appointment-table {
-    width: 60%;
-    height: 50%;
-    border-collapse: collapse;
-    margin-top: 30px;
-}
 
-.appointment-table th, .appointment-table td {
+/* calendar design */
+
+
+.main-content {
+    margin: 145px;
+}
+.calendar-container {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.calendar-header button {
+    background: #41b5eb;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.calendar-header button:hover {
+    background:  #54d0e0;;
+}
+.calendar-header h3 {
+    margin: 0;
+}
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+   
+}
+.calendar-cell {
+    border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
-    border: 1px solid #ddd;
+    position: relative;
+    background: #fff;
+    border-radius: 4px;
 }
 
-.appointment-table th {
-    background-color: #176B87;
+.day-header { 
+    background: #4a9fb9;
     color: white;
-    font-weight: bold;
+    padding: 5px 0;
+    text-align: center;
+    border-radius: 3px;
+    font-size: small;
 }
-
-.appointment-table td {
-    background-color: #f9f9f9;
-}
-
-.appointment-table td.time {
-    font-weight: 600;
-}
-
-.appointment-table td.details {
-    color: #333;
+.appointment-details {
+    margin-top: 5px;
+    background: #e7f4ff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: x-small;
+    text-align: center;
+    
 }

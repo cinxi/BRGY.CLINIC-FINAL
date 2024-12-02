@@ -177,27 +177,6 @@ const approveAppointment = async (req, res) => {
     }
 };
 
-// Mark an appointment as completed
-// const markAsComplete = async (req, res) => {
-//     const appointmentId = req.params.id;
-//     try {
-//         const appointment = await models.Appointment.findOne({ where: { Appointment_ID: appointmentId } });
-
-//         if (!appointment) {
-//             return res.redirect("/staff/appointment?message=AppointmentNotFound");
-//         }
-
-//         // Update status to "Completed"
-//         appointment.Appointment_Status = "Completed";
-//         await appointment.save();
-
-//         console.log("Appointment marked as complete");
-//         res.redirect("/staff/appointment?message=AppointmentCompleted");
-//     } catch (error) {
-//         console.error("Error marking appointment as complete:", error);
-//         res.redirect("/staff/appointment?message=ErrorMarkingAppointmentComplete");
-//     }
-// };
 
 
 // Mark an appointment as completed (but keep it in the database)
@@ -221,9 +200,40 @@ const markAsComplete = async (req, res) => {
         res.redirect("/staff/appointment?message=ErrorMarkingAppointmentComplete");
     }
 };
+// Fetch approved appointments and format for calendar display
+const fetchApprovedAppointments = async (req, res) => {
+    try {
+        const appointments = await models.Appointment.findAll({
+            where: { Appointment_Status: "Approved" },
+            include: [{
+                model: models.Patient,
+                as: 'Patient',
+                attributes: ['Patient_FirstName', 'Patient_LastName']
+            }],
+            attributes: ['Appointment_ID', 'Appointment_Date', 'Appointment_Time', 'Appointment_Purpose']
+        });
+
+        const approvedAppointments = appointments.map(appointment => ({
+            id: appointment.Appointment_ID,
+            patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
+            date: new Date(appointment.Appointment_Date).toISOString().split('T')[0],
+            time: appointment.Appointment_Time,
+            purpose: appointment.Appointment_Purpose
+        }));
+
+        // Send data as JSON
+        res.json(approvedAppointments);
+    } catch (error) {
+        console.error("Error fetching approved appointments:", error);
+        res.status(500).json({ error: "Failed to fetch approved appointments" });
+    }
+};
+
+
 
 
 module.exports = {
+    fetchApprovedAppointments,
     appointment_view,
     save_addAppointment,
     editAppointment_view,

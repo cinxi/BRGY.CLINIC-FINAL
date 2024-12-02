@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Clinic Staff Dashboard</title>
-    <!-- Linking Google Font Link For Icons --> 
-   
+    <title>Staff Calendar-view</title>
+    <!-- Linking Google Font Link For Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="/css/staff/dashboard.css">
@@ -16,88 +15,160 @@
             <div class="user-profile">
                 <img src="/image/taylor.png" alt="profile-img">
                 <div class="user-detail">
-                    <h3> Taylor Swift</h3>
+                    <h3>Taylor Swift</h3>
                     <span>Clinic Staff</span>
                 </div>
             </div>
         </div>
     </div>
 
-
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="/image/logo2.png" alt="logo">
+            <img src="/image/brgy-logo.png" alt="logo">
             <h3>Brgy. Clinic Appointment</h3>
         </div>
         <ul class="sidebar-links">
-         
             <li><a href="Staffdashboard"><span class="material-icons">dashboard</span>Dashboard</a></li>
-            <li><a href="appointment"><span class="material-icons">today</span> Appointments</a></li>
+            <li><a href="appointment"><span class="material-icons">today</span>Appointments</a></li>
             <li><a href="patients"><span class="material-icons">groups</span>Patients Record</a></li>
             <li><a href="logs"><span class="material-symbols-outlined">history</span>Logs</a></li>
-            <li><a href="login"><span class="material-icons">logout</span>Logout</a></li> 
+            <li><a href="login"><span class="material-icons">logout</span>Logout</a></li>
         </ul>
-      
     </aside>
-  
 
-    <main class="main-content p-4 w-100">
+    <!-- Main Content -->
+    <main class="main-content">
         <div class="sticky-header">
-            <h4>Hello, Taylor Swift!</h4>
+            <h4>Existing Appointments</h4>
         </div>
-        
-        <div class="contents">
-                    <!-- Calendar Section -->
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <button id="prev-month" class="nav-btn">&lt;</button>
-                        <h2 id="current-month">November 2024</h2>
-                        <button id="next-month" class="nav-btn">&gt;</button>
-                    </div>
-                    <div class="calendar">
-                        <div class="calendar-days">
-                            <div class="day">Sun</div>
-                            <div class="day">Mon</div>
-                            <div class="day">Tue</div>
-                            <div class="day">Wed</div>
-                            <div class="day">Thu</div>
-                            <div class="day">Fri</div>
-                            <div class="day">Sat</div>
-                        </div>
-                        <div id="calendar-dates" class="calendar-dates">
-                            <!-- Dates dynamically generated -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Appointments Table -->
-                <table class="appointment-table">
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Appointment</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="time">10:00 AM</td>
-                            <td class="details">Eve Liu</td>
-                            <td class="details">Consultation</td>
-                        </tr>
-                        <tr>
-                            <td class="time">02:00 PM</td>
-                            <td class="details">Athanasia Obelia</td>
-                            <td class="details">Follow-up</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <button id="prev-month">&lt;</button>
+                <h3 id="calendar-title">December</h3>
+                <button id="next-month">&gt;</button>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
         </div>
-
-        
     </main>
-    
-    <script src="/js/calendar.js"></script>
 
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let currentMonth = new Date().getMonth();
+            let currentYear = new Date().getFullYear();
+
+            const calendarGrid = document.getElementById("calendar-grid");
+            const calendarTitle = document.getElementById("calendar-title");
+            const prevMonthButton = document.getElementById("prev-month");
+            const nextMonthButton = document.getElementById("next-month");
+
+            // Function to format the time in 12-hour format (AM/PM)
+            const formatTime12Hour = (time24) => {
+                let [hours, minutes] = time24.split(':');
+                hours = parseInt(hours, 10);
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // Handle 0 hours as 12
+                minutes = minutes.padStart(2, '0');
+                return `${hours}:${minutes} ${ampm}`;
+            };
+
+            // Fetch appointments from the backend
+            const fetchAppointments = () => {
+                return fetch('/api/approved-appointments')
+                    .then(response => response.json())
+                    .catch(error => {
+                        console.error("Error fetching appointments:", error);
+                        return [];
+                    });
+            };
+
+            // Render calendar
+            const renderCalendar = async () => {
+                const appointments = await fetchAppointments();
+                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                const firstDayOfWeek = new Date(currentYear, currentMonth, 1).getDay();
+
+                // Update calendar title
+                const monthNames = [
+                    "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"
+                ];
+                calendarTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+                // Clear the calendar grid
+                calendarGrid.innerHTML = "";
+
+                // Add day headers
+                const dayHeaders = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                dayHeaders.forEach(day => {
+                    const header = document.createElement("div");
+                    header.classList.add("calendar-cell", "day-header");
+                    header.textContent = day;
+                    calendarGrid.appendChild(header);
+                });
+
+                // Add blank cells for days before the first day
+                for (let i = 0; i < firstDayOfWeek; i++) {
+                    const blankCell = document.createElement("div");
+                    blankCell.classList.add("calendar-cell");
+                    calendarGrid.appendChild(blankCell);
+                }
+
+                // Generate calendar cells for each day
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const date = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                    const dayAppointments = appointments.filter(app => app.date === date);
+
+                    const cell = document.createElement("div");
+                    cell.classList.add("calendar-cell");
+                    cell.innerHTML = `<strong>${day}</strong>`;
+
+                    // Add appointment details
+                    if (dayAppointments.length > 0) {
+                        const detailsContainer = document.createElement("div");
+                        detailsContainer.classList.add("appointment-details");
+
+                        dayAppointments.forEach(app => {
+                            const detail = document.createElement("p");
+                            const formattedTime = formatTime12Hour(app.time); // Convert to 12-hour format
+                            detail.innerHTML = `
+                                ${app.patientName} <br>
+                                ${app.purpose} <br>
+                                ${formattedTime}
+                            `;
+                            detailsContainer.appendChild(detail);
+                        });
+
+                        cell.appendChild(detailsContainer);
+                    }
+
+                    calendarGrid.appendChild(cell);
+                }
+            };
+
+            // Handle navigation buttons
+            prevMonthButton.addEventListener("click", () => {
+                currentMonth -= 1;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear -= 1;
+                }
+                renderCalendar();
+            });
+
+            nextMonthButton.addEventListener("click", () => {
+                currentMonth += 1;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear += 1;
+                }
+                renderCalendar();
+            });
+
+            // Initial render
+            renderCalendar();
+        });
+    </script>
 </body>
 </html>

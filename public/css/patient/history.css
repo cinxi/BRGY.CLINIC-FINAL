@@ -541,9 +541,10 @@ table tr:hover {
     }
 }
 
+/* 
 
+  //filter 
 
-    /* Filter Dropdown */
     #status-filter {
         padding: 8px 8px;
         font-size: small;
@@ -563,5 +564,35 @@ table tr:hover {
 
     #status-filter option {
         padding: 10px;
-    }
+    } */
+
+
+
+  
+        /* Styling the filter buttons container */
+        #filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        /* Basic button styles */
+        #filter-buttons button {
+            padding: 10px 10px;
+            font-size: small;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: gray; 
+            color: white; 
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Hover effect */
+        #filter-buttons button:hover {
+            background-color: rgb(165, 159, 159); ; 
+            transform: scale(1.05);
+        }
+
+   
 
