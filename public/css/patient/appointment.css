@@ -179,6 +179,23 @@ body {
 }
 
 
+    
+/* sa open */
+   
+.appointment-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 16px;
+    gap: 8px; /* Adds space between the icon and text */
+}
+
+.appointment-btn .icon {
+    font-size: 25px; /* Adjust icon size */
+    line-height: 1; /* Ensures proper vertical alignment */
+}
+
+
 /* Button styling */
 .btn {
     padding: 10px 15px;
@@ -211,6 +228,7 @@ body {
     color: white;
     font-size: x-small;
 }
+
 
 
 .btn-danger {
@@ -620,4 +638,5 @@ button.btn {
 .btn-secondary:hover {
     background-color: #5a6268;
 }
+
 

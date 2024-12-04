@@ -54,7 +54,7 @@
                         </div>
                     </div>
                 </div>
-
+             
                 <div class="dashboard-patients">
                     <!-- Total Patients -->
                     <div class="card">
@@ -67,15 +67,9 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <h3> Appointments</h3>
-                    <div class="stat-number" >
-                        <!-- The value will be dynamically populated by the backend -->
-                        <span>12</span>
-                    </div>
-                </div>
-         </div>
-    
+            </main>
+
+           
         <script>
             // fetch total clinic staff
             fetch('/admin/getTotalClinicStaff')
@@ -104,71 +98,10 @@
                 });
         </script>
 
-        <!-- Statistics Section -->
-    <div class="statistics-section">
-        <h4>Reports Overview</h4>
-        <div class="stats-visuals">
-            <div class="chart-container">
-                <canvas id="appointmentsChart"></canvas>
-            </div>
-            <div class="summary-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Total</th>
-                            <th>Percentage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Completed Appointments</td>
-                            <td>18</td>
-                            <td>75%</td>
-                        </tr>
-                        <tr>
-                            <td>Missed Appointments</td>
-                            <td>6</td>
-                            <td>25%</td>
-                        </tr>
-                        <tr>
-                            <td>New Registrations</td>
-                            <td>30</td>
-                            <td>-</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <!-- stats js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const ctx = document.getElementById('appointmentsChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Completed', 'Missed'],
-            datasets: [{
-                data: [18, 6],
-                backgroundColor: ['#176B87', '#f74b4b'],
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    position: 'top'
-                }
-            }
-        }
-    });
-</script>
+       
 
 
 
-</main>
 
 
 </body>

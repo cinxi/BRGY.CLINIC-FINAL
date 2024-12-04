@@ -208,7 +208,7 @@ const fetchApprovedAppointments = async (req, res) => {
             include: [{
                 model: models.Patient,
                 as: 'Patient',
-                attributes: ['Patient_FirstName', 'Patient_LastName']
+                attributes: ['Patient_FirstName', 'Patient_LastName', 'Patient_ContactNumber']
             }],
             attributes: ['Appointment_ID', 'Appointment_Date', 'Appointment_Time', 'Appointment_Purpose']
         });
@@ -218,7 +218,8 @@ const fetchApprovedAppointments = async (req, res) => {
             patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
             date: new Date(appointment.Appointment_Date).toISOString().split('T')[0],
             time: appointment.Appointment_Time,
-            purpose: appointment.Appointment_Purpose
+            purpose: appointment.Appointment_Purpose,
+            contact: appointment.Patient.Patient_ContactNumber
         }));
 
         // Send data as JSON

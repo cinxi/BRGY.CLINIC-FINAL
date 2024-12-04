@@ -28,7 +28,7 @@
             <h3>Brgy. Clinic Appointment</h3>
         </div>
         <ul class="sidebar-links">
-            <li><a href="Staffdashboard"><span class="material-icons">dashboard</span>Dashboard</a></li>
+            <li><a href="Staffdashboard"><span class="material-icons">dashboard</span>Calendar</a></li>
             <li><a href="appointment"><span class="material-icons">today</span>Appointments</a></li>
             <li><a href="patients"><span class="material-icons">groups</span>Patients Record</a></li>
             <li><a href="logs"><span class="material-symbols-outlined">history</span>Logs</a></li>
@@ -49,126 +49,153 @@
             </div>
             <div class="calendar-grid" id="calendar-grid"></div>
         </div>
-    </main>
+  
 
-    <!-- JavaScript -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            let currentMonth = new Date().getMonth();
-            let currentYear = new Date().getFullYear();
+    <!-- Add Modal for Appointment Details -->
+<div id="appointment-modal" class="modal">
+    <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h3>Patient Details</h3>
+        <div id="appointment-details"></div>
+    </div>
+</div>
 
-            const calendarGrid = document.getElementById("calendar-grid");
-            const calendarTitle = document.getElementById("calendar-title");
-            const prevMonthButton = document.getElementById("prev-month");
-            const nextMonthButton = document.getElementById("next-month");
 
-            // Function to format the time in 12-hour format (AM/PM)
-            const formatTime12Hour = (time24) => {
-                let [hours, minutes] = time24.split(':');
-                hours = parseInt(hours, 10);
-                const ampm = hours >= 12 ? 'PM' : 'AM';
-                hours = hours % 12;
-                hours = hours ? hours : 12; // Handle 0 hours as 12
-                minutes = minutes.padStart(2, '0');
-                return `${hours}:${minutes} ${ampm}`;
-            };
+</main>
 
-            // Fetch appointments from the backend
-            const fetchAppointments = () => {
-                return fetch('/api/approved-appointments')
-                    .then(response => response.json())
-                    .catch(error => {
-                        console.error("Error fetching appointments:", error);
-                        return [];
-                    });
-            };
 
-            // Render calendar
-            const renderCalendar = async () => {
-                const appointments = await fetchAppointments();
-                const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-                const firstDayOfWeek = new Date(currentYear, currentMonth, 1).getDay();
 
-                // Update calendar title
-                const monthNames = [
-                    "January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November", "December"
-                ];
-                calendarTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Existing Variables and Functions
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        const calendarGrid = document.getElementById("calendar-grid");
+        const calendarTitle = document.getElementById("calendar-title");
+        const prevMonthButton = document.getElementById("prev-month");
+        const nextMonthButton = document.getElementById("next-month");
 
-                // Clear the calendar grid
-                calendarGrid.innerHTML = "";
+        // Modal Elements
+        const modal = document.getElementById("appointment-modal");
+        const closeModal = document.getElementById("close-modal");
+        const appointmentDetails = document.getElementById("appointment-details");
 
-                // Add day headers
-                const dayHeaders = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-                dayHeaders.forEach(day => {
-                    const header = document.createElement("div");
-                    header.classList.add("calendar-cell", "day-header");
-                    header.textContent = day;
-                    calendarGrid.appendChild(header);
+        closeModal.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+
+        // Fetch appointments
+        const fetchAppointments = () => {
+            return fetch('/api/approved-appointments')
+                .then(response => response.json())
+                .catch(error => {
+                    console.error("Error fetching appointments:", error);
+                    return [];
                 });
+        };
 
-                // Add blank cells for days before the first day
-                for (let i = 0; i < firstDayOfWeek; i++) {
-                    const blankCell = document.createElement("div");
-                    blankCell.classList.add("calendar-cell");
-                    calendarGrid.appendChild(blankCell);
-                }
+        // Render calendar with click functionality
+        const renderCalendar = async () => {
+            const appointments = await fetchAppointments();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const firstDayOfWeek = new Date(currentYear, currentMonth, 1).getDay();
+            const monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            calendarTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            calendarGrid.innerHTML = "";
 
-                // Generate calendar cells for each day
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const date = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-                    const dayAppointments = appointments.filter(app => app.date === date);
-
-                    const cell = document.createElement("div");
-                    cell.classList.add("calendar-cell");
-                    cell.innerHTML = `<strong>${day}</strong>`;
-
-                    // Add appointment details
-                    if (dayAppointments.length > 0) {
-                        const detailsContainer = document.createElement("div");
-                        detailsContainer.classList.add("appointment-details");
-
-                        dayAppointments.forEach(app => {
-                            const detail = document.createElement("p");
-                            const formattedTime = formatTime12Hour(app.time); // Convert to 12-hour format
-                            detail.innerHTML = `
-                                ${app.patientName} <br>
-                                ${app.purpose} <br>
-                                ${formattedTime}
-                            `;
-                            detailsContainer.appendChild(detail);
-                        });
-
-                        cell.appendChild(detailsContainer);
-                    }
-
-                    calendarGrid.appendChild(cell);
-                }
-            };
-
-            // Handle navigation buttons
-            prevMonthButton.addEventListener("click", () => {
-                currentMonth -= 1;
-                if (currentMonth < 0) {
-                    currentMonth = 11;
-                    currentYear -= 1;
-                }
-                renderCalendar();
+            // Day Headers
+            const dayHeaders = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            dayHeaders.forEach(day => {
+                const header = document.createElement("div");
+                header.classList.add("calendar-cell", "day-header");
+                header.textContent = day;
+                calendarGrid.appendChild(header);
             });
 
-            nextMonthButton.addEventListener("click", () => {
-                currentMonth += 1;
-                if (currentMonth > 11) {
-                    currentMonth = 0;
-                    currentYear += 1;
-                }
-                renderCalendar();
-            });
+            // Blank Cells
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                const blankCell = document.createElement("div");
+                blankCell.classList.add("calendar-cell");
+                calendarGrid.appendChild(blankCell);
+            }
 
-            // Initial render
+            // Calendar Cells
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                const dayAppointments = appointments.filter(app => app.date === date);
+                const cell = document.createElement("div");
+                cell.classList.add("calendar-cell");
+                cell.innerHTML = `<strong>${day}</strong>`;
+
+                if (dayAppointments.length > 0) {
+                    const detailsContainer = document.createElement("div");
+                    detailsContainer.classList.add("appointment-details");
+                    detailsContainer.textContent = `${dayAppointments.length} Appointment`;
+
+                    cell.appendChild(detailsContainer);
+                    cell.addEventListener("click", () => showAppointments(dayAppointments));
+                }
+
+                calendarGrid.appendChild(cell);
+            }
+        };
+
+        // Show appointments in the modal
+        const showAppointments = (appointments) => {
+            appointmentDetails.innerHTML = "";
+            if (appointments.length > 0) {
+                appointments.forEach(app => {
+                    const detail = document.createElement("p");
+                    detail.innerHTML = `
+                        <strong>${app.patientName}</strong><br>
+                        Purpose: ${app.purpose}<br>
+                        Time: ${formatTime12Hour(app.time)}<br>
+                        Contact: ${app.contact}
+                    `;
+                    appointmentDetails.appendChild(detail);
+                });
+            } else {
+                appointmentDetails.innerHTML = "<p>No appointments available for this date.</p>";
+            }
+            modal.style.display = "block";
+        };
+
+        // Format time to 12-hour
+        const formatTime12Hour = (time24) => {
+            let [hours, minutes] = time24.split(':');
+            hours = parseInt(hours, 10);
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes.padStart(2, '0');
+            return `${hours}:${minutes} ${ampm}`;
+        };
+
+        // Handle Navigation
+        prevMonthButton.addEventListener("click", () => {
+            currentMonth -= 1;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear -= 1;
+            }
             renderCalendar();
         });
-    </script>
+
+        nextMonthButton.addEventListener("click", () => {
+            currentMonth += 1;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear += 1;
+            }
+            renderCalendar();
+        });
+
+        renderCalendar();
+    });
+</script>
+
 </body>
 </html>
