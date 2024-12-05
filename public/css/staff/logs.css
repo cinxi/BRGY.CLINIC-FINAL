@@ -164,7 +164,6 @@ body {
     width: 85%;
     height: 80vh;
     border-radius: 15px;
-    /* padding: auto 2rem; */
     margin-left: 85px; /* Space for sidebar */
     padding: 20px;
     margin-left: 10%;
@@ -177,111 +176,28 @@ body {
 }
 
 
-/* Button styling */
-.btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-}
 
-.btn-success {
-    margin-top: 20px; /* Adjust the value as needed */
-}
-
-.btn-primary {
-    background-color: #007bff; /* Blue background */
-    color: white;
-}
-
-.btn-danger {
-    background-color: #dc3545; /* Red background */
-    color: white;
-}
-
-
-.reports-table {
-    width: 100%;
-    min-width: 1200px; /* Set minimum width for scroll */
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.reports-table thead th {
-    background-color: #161a2d;
-    color: #ffffff;
-    font-weight: 500;
-    padding: 12px;
-    text-align: left;
-    border-bottom: 2px solid #333578;
-}
-
-.reports-table tbody td {
-    padding: 12px;
-    color: #333;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.reports-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.reports-table tbody tr:hover {
-    background-color: #e0e0e0;
-}
-
-
-/* Responsive adjustments */
-@media (max-width: 430px) {
-    .main-content {
-        margin-left: 0;
-    }
-
-
-    .main-content h2, .main-content h4 {
-        font-size: 1.25rem;
-    }
-}
-
-
-
-/* Styling for Logs Section */
-
-
-.logs-section h4 {
-    font-size: 1.25rem;
-    color: #176B87;
-    margin-bottom: 30px;
-}
 
 /* Table container for horizontal scroll */
 .table-responsive {
     overflow-x: auto;
     width: 100%;
-    height: 75%;
+    max-height: 75vh; /* Limit table container height */
 }
 
 .reports-table {
     width: 100%;
-    min-width: 1000px; /* Adjust for responsive scrolling */
     background-color: #f8f9fa;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    
 }
 
 .reports-table thead th {
     background-color: #176B87;
     color: #ffffff;
-    /* font-weight: bold; */
     padding: 12px;
- 
     border-bottom: 2px solid #12556b;
     text-align: center;
 }
@@ -302,3 +218,20 @@ body {
 }
 
 
+/* Responsive adjustments */
+@media (max-width: 430px) {
+    .main-content {
+        margin-left: 0;
+    }
+
+    .main-content h2, .main-content h4 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Styling for Logs Section */
+.logs-section h4 {
+    font-size: 1.25rem;
+    color: #176B87;
+    margin-bottom: 30px;
+}

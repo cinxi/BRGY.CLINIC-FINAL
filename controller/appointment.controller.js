@@ -3,6 +3,50 @@
 const models = require("../models");
 
 
+const logs_view = async (req, res) => {
+    const message = req.query.message || null;
+
+    try {
+        // Fetch patients' data
+        const patients = await models.Patient.findAll({
+            attributes: ['Patient_ID', 'Patient_FirstName', 'Patient_LastName']
+        });
+
+        const patientList = patients.map(patient => ({
+            id: patient.Patient_ID,
+            name: `${patient.Patient_FirstName} ${patient.Patient_LastName}`
+        }));
+
+        // Fetch appointments data
+        const appointments = await models.Appointment.findAll({
+            include: [{
+                model: models.Patient,
+                as: 'Patient',
+                attributes: ['Patient_FirstName', 'Patient_LastName']
+            }],
+            attributes: ['Appointment_ID', 'Appointment_Date', 'Appointment_Time', 'Appointment_Purpose', 'Appointment_Status']
+        });
+
+        // Format the appointment data
+        const appointmentList = appointments.map(appointment => ({
+            id: appointment.Appointment_ID,
+            patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
+            date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
+            time: appointment.Appointment_Time,
+            purpose: appointment.Appointment_Purpose,
+            status: appointment.Appointment_Status
+        }));
+
+        // Debugging logs
+        console.log("Patient List:", patientList);
+        console.log("Appointment List:", appointmentList);
+
+        res.render("staff/logs", { message, patientList, appointmentList, error: null });
+    } catch (error) {
+        console.error("Error fetching patients or appointments:", error);
+        res.render("staff/logs", { message, patientList: [], appointmentList: [], error: "Failed to load data" });
+    }
+};
 
 // Fetch patients and render the appointment view
 const appointment_view = async (req, res) => {
@@ -241,7 +285,8 @@ module.exports = {
     save_editAppointment,
     // deleteAppointment,
     approveAppointment,
-    markAsComplete
+    markAsComplete,
+    logs_view
 
     
     

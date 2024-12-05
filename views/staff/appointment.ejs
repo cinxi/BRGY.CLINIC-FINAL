@@ -82,7 +82,7 @@
                     <tbody id="appointmentTableBody">
                         <% if (appointmentList && appointmentList.length > 0) { %>
                             <% appointmentList.forEach(appointment => { %>
-                                <% if (appointment.status !== "Completed") { %> <!-- Exclude "Completed" appointments -->
+                                <% if (appointment.status !== "Completed"  && appointment.status !== "Cancelled") { %> <!-- Exclude "Completed" and Cancelled appointments -->
                                     <tr>
                                         <td><%= appointment.id %></td>
                                         <td><%= appointment.patientName || 'N/A' %></td>

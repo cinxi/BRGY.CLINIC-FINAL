@@ -35,7 +35,7 @@ const router = express.Router()
 
 //get
 
-router.get("/staff/logs", userController.logs_view   ) 
+router.get("/staff/logs", appointmentController.logs_view   ) 
 
 router.get("/staff/landing", userController.landing_view   ) 
 

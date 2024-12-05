@@ -10,7 +10,10 @@
     <title>Book Appointment</title>
     <!-- Linking Google Font Link For Icons --> 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="/css/patient/appointment.css"> <!-- Link to your logs.css -->
+    <link rel="stylesheet" href="/css/patient/appointment.css"> 
+     <!-- Flatpickr CSS -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 </head>
 <body>
     <!-- Header -->
@@ -61,39 +64,64 @@
     
         
 
-<br>
-        <!-- Appointment Form Modal -->
-<div id="appointmentModal" class="modal">
+<br><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <!-- Linking Google Font for Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="/css/patient/appointment.css">
     
-    <div class="modal-content">
-        <span id="closeModal" class="close">&times;</span>
-        <h3>Schedule New Appointment</h3>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+  
+    <!-- Appointment Form Modal -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h3>Schedule New Appointment</h3>
 
-        <form action="/add-appointment" method="POST">
-            <div class="form-group">
-                <label for="appointment_date">Appointment Date:</label>
-                <input type="date" name="Appointment_Date" id="appointment_date" required>
-            </div>
+            <form action="/add-appointment" method="POST">
+                <div class="form-group">
+                    <label for="appointment_date">Appointment Date:</label>
+                    <input type="text" name="Appointment_Date" id="appointment_date" class="date-picker" required>
+                </div>
 
-            <div class="form-group">
-                <label for="appointment_time">Appointment Time:</label>
-                <input type="time" name="Appointment_Time" id="appointment_time" required>
-            </div>
+                <div class="form-group">
+                    <label for="appointment_time">Appointment Time:</label>
+                    <input type="time" name="Appointment_Time" id="appointment_time" required>
+                </div>
 
-            <div class="form-group">
-                <label for="appointment_purpose">Appointment Purpose:</label>
-                <input type="text" name="Appointment_Purpose" id="appointment_purpose" required>
-            </div>
+                <div class="form-group">
+                    <label for="appointment_purpose">Appointment Purpose:</label>
+                    <input type="text" name="Appointment_Purpose" id="appointment_purpose" required>
+                </div>
 
-            <div class="form-group">
-                <label for="Appointment_Status">Appointment Status:</label>
-                <input name="Appointment_Status" type="text" class="form-control" id="Appointment_Status" value="Pending" readonly>
-            </div>
+                <div class="form-group">
+                    <label for="Appointment_Status">Appointment Status:</label>
+                    <input name="Appointment_Status" type="text" class="form-control" id="Appointment_Status" value="Pending" readonly>
+                </div>
 
-            <button type="submit" class="btn btn-success">Add Appointment</button>
-        </form>
+                <button type="submit" class="btn btn-success">Add Appointment</button>
+            </form>
+        </div>
     </div>
-</div>
+  
+    <!-- Flatpickr Script -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Initialize Flatpickr on date input fields
+        document.addEventListener("DOMContentLoaded", function() {
+            flatpickr(".date-picker", {
+                altInput: true,
+                altFormat: "F j, Y",
+                dateFormat: "Y-m-d",
+                minDate: "today", // Prevent past dates
+            });
+        });
+    </script>
 
 
 
@@ -158,18 +186,33 @@
         <h3>Reschedule Appointment</h3>
         <form action="/reschedule-appointment" method="POST">
             <input type="hidden" name="appointmentId" id="rescheduleAppointmentId">
+            
             <div class="form-group">
                 <label for="newDate">New Appointment Date:</label>
-                <input type="date" name="newDate" id="newDate" required>
+                <input type="text" name="newDate" id="newDate" class="date-picker" required>
             </div>
+            
             <div class="form-group">
                 <label for="newTime">New Appointment Time:</label>
                 <input type="time" name="newTime" id="newTime" required>
             </div>
+            
             <button type="submit" class="btn btn-success">Reschedule</button>
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Apply Flatpickr to all date picker fields
+        flatpickr(".date-picker", {
+            altInput: true,
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
+            minDate: "today", // Prevent past dates
+        });
+    });
+</script>
 
 
 
