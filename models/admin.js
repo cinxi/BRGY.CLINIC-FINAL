@@ -35,7 +35,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         }
-    });
+    }, {
+        sequelize,
+        modelName: 'admin',
+        timestamps: true // Ensure timestamps are enabled
+      });
+    
   
     return admin; 
   };

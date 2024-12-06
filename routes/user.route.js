@@ -35,6 +35,8 @@ const router = express.Router()
 
 //get
 
+ 
+
 router.get("/staff/logs", appointmentController.logs_view   ) 
 
 router.get("/staff/landing", userController.landing_view   ) 
@@ -106,8 +108,9 @@ router.get('/staff/markAsComplete/:id', appointmentController.markAsComplete);
 
 router.get('/api/approved-appointments',appointmentController.fetchApprovedAppointments);
 
-const { authenticateUser } = require("../middleware/auth");
 
+
+const { authenticateUser } = require("../middleware/auth");
 
 // Apply authentication middleware to secure routes
 router.get("/staff/Staffdashboard", authenticateUser, userController.Staffdashboard_view);

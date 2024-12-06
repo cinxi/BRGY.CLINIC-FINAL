@@ -58,6 +58,8 @@ const logs_view = async (req, res) => {
     }
 };
 
+
+
 // Fetch patients and render the appointment view
 const appointment_view = async (req, res) => {
     const message = req.query.message || null;

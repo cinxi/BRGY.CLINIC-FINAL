@@ -43,7 +43,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         }
-    });
+    }, {
+        sequelize,
+        modelName: 'ClinicStaff',
+        timestamps: true // Ensure timestamps are enabled
+      });
   
+    
     return ClinicStaff;
 };

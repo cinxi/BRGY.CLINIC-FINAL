@@ -23,8 +23,59 @@ const reports_view = (req, res) => {
 };
 
 
-const logs_view = (req, res) => {
-    res.render("admin/logs");
+const logs_view = async (req, res) => {
+    const message = req.query.message || null;
+
+    try {
+        // Fetch patients' data
+        const patients = await models.Patient.findAll({
+            attributes: ['Patient_ID', 'Patient_FirstName', 'Patient_LastName']
+        });
+
+        const patientList = patients.map(patient => ({
+            id: patient.Patient_ID,
+            name: `${patient.Patient_FirstName} ${patient.Patient_LastName}`
+        }));
+
+        // Fetch appointments data with createdAt and updatedAt
+        const appointments = await models.Appointment.findAll({
+            include: [{
+                model: models.Patient,
+                as: 'Patient',
+                attributes: ['Patient_FirstName', 'Patient_LastName']
+            }],
+            attributes: [
+                'Appointment_ID', 
+                'Appointment_Date', 
+                'Appointment_Time', 
+                'Appointment_Purpose', 
+                'Appointment_Status', 
+                'createdAt',  // Include createdAt
+                'updatedAt'   // Include updatedAt
+            ]
+        });
+
+        // Format the appointment data
+        const appointmentList = appointments.map(appointment => ({
+            id: appointment.Appointment_ID,
+            patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
+            date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
+            time: appointment.Appointment_Time,
+            purpose: appointment.Appointment_Purpose,
+            status: appointment.Appointment_Status,
+            createdAt: new Date(appointment.createdAt).toLocaleString(), // Format createdAt
+            updatedAt: new Date(appointment.updatedAt).toLocaleString()  // Format updatedAt
+        }));
+
+        // Debugging logs
+        console.log("Patient List:", patientList);
+        console.log("Appointment List:", appointmentList);
+
+        res.render("admin/logs", { message, patientList, appointmentList, error: null });
+    } catch (error) {
+        console.error("Error fetching patients or appointments:", error);
+        res.render("admin/logs", { message, patientList: [], appointmentList: [], error: "Failed to load data" });
+    }
 };
 
 

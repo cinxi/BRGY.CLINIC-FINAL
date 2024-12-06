@@ -1,4 +1,3 @@
-/* Importing Google font - Poppins */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 * {
     margin: 0;
@@ -6,6 +5,8 @@
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
+
+/* #7E60BF purple ni*/ 
 
 body {
     min-height: 90vh;
@@ -159,17 +160,19 @@ body {
     border-radius: 15px;
 }
 
+
 .main-content {
     background-color: #ffffff;
-    width: 85%;
-    height: 80vh;
+    max-height: 85vh;
+    width: 85%; 
+    overflow: hidden; 
     border-radius: 15px;
-    margin-left: 85px; /* Space for sidebar */
-    padding: 20px;
-    margin-left: 10%;
+    margin-left: 10%; 
     margin-top: 6%;
+    padding: 20px;
     transition: margin-left 0.4s ease;
 }
+
 
 .sidebar:hover + .main-content {
     margin-left: 280px; 
@@ -178,43 +181,62 @@ body {
 
 
 
-/* Table container for horizontal scroll */
-.table-responsive {
-    overflow-x: auto;
-    width: 100%;
-    max-height: 75vh; /* Limit table container height */
+table{
+    font-size: small;
+    text-align: center;
 }
+
+/*horizontal scroll */
+
+.table-responsive {
+    overflow-x: auto; 
+    max-height: calc(85vh - 40px); /* Adjust the height as needed */
+    width: 100%;
+    padding-bottom: 10px;
+}
+
 
 .reports-table {
     width: 100%;
+    min-width: 1100px; /* Adjust based on your needs */
     background-color: #f8f9fa;
+    border-collapse: collapse;
+    text-align: center;
     border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
 }
 
-.reports-table thead th {
+
+.reports-table th {
     background-color: #176B87;
-    color: #ffffff;
-    padding: 12px;
-    border-bottom: 2px solid #12556b;
-    text-align: center;
+    color: white;
+    padding: 10px;
 }
-
 .reports-table tbody td {
     padding: 12px;
     color: #333;
     border-bottom: 1px solid #e9ecef;
-    font-size: small;
 }
+
+
+.reports-table tbody {
+    max-height: 50vh; /* Limit table body height for scrolling */
+    overflow-y: auto;
+    display: block; /* Allow independent scrolling */
+}
+
+.reports-table thead, .reports-table tbody tr {
+    display: table;
+    width: 100%; /* Maintain alignment */
+    table-layout: fixed; /* Prevent content misalignment */
+}
+
 
 .reports-table tbody tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
 .reports-table tbody tr:hover {
-    background-color: #e0e0e0;
+    background-color: #46b2d643;
 }
 
 
@@ -229,9 +251,104 @@ body {
     }
 }
 
-/* Styling for Logs Section */
-.logs-section h4 {
-    font-size: 1.25rem;
-    color: #176B87;
-    margin-bottom: 30px;
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 85px;
+        margin-top: 8%;
+    }
+
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar:hover {
+        width: 200px;
+    }
+
+    .reports-table {
+        min-width: 800px;
+    }
 }
+
+
+
+.sticky-header h4 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+}
+
+
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    font-size: small;
+}
+
+table th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: 500;
+}
+
+table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Responsive Design for Main Content */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .sticky-header h4 {
+        font-size: 20px;
+    }
+
+    table th, table td {
+        padding: 10px;
+    }
+}
+
+
+  
+        /* Styling the filter buttons container */
+        #filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+          
+        }
+
+        /* Basic button styles */
+        #filter-buttons button {
+            padding: 10px 10px;
+            font-size: x-small;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: rgb(105, 146, 233); 
+            color: white; 
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Hover effect */
+        #filter-buttons button:hover {
+            background-color: rgb(128, 167, 199); ; 
+            transform: scale(1.05);
+        }
+
+   
+

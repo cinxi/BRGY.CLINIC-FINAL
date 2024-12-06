@@ -40,46 +40,118 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="sticky-header">
-            <!-- <h2>Logs</h2> -->
-        </div>
 
-        <!-- Logs Table Section -->
         <section class="logs-section">
             <h4>System Logs</h4>
-            <div class="table-responsive">
+
+            <!-- Button to View Patients -->
+            <button onclick="togglePatientTable()">View Patients</button>
+
+            <!-- Button to View Appointments -->
+            <button onclick="toggleAppointmentTable()">View Appointments</button>
+
+           <!-- Table to Display Patient List -->
+<div class="table-responsive" id="patientTable" style="display:none;">
+    <table class="reports-table">
+        <thead>
+            <tr>
+                <th>Created At</th>
+               <th>Updated At</th>
+                <th>Patient ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Date of Birth</th>
+                <th>Contact Number</th>
+                <th>Address</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+         
+        </tbody>
+    </table>
+</div>
+
+            <!-- Table to Display Appointments -->
+            <div class="table-responsive" id="appointmentTable" style="display:none;">
                 <table class="reports-table">
                     <thead>
                         <tr>
-                            <th>Date & Time</th>
-                            <th>User</th>
-                            <th>Action</th>
-                            <th>Details</th>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Appointment ID</th>
+                            <th>Patient Name</th>
+                            <th>Appointment Date</th>
+                            <th>Appointment Time</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    
-                    
-
-                  
-                        <tr>
-                            <td>2024-11-18 15:00</td>
-                            <td>Admin</td>
-                            <td>Updated User Details</td>
-                            <td>User ID: 4321</td>
-                        </tr>
-
-                        <tr>
-                            <td>2024-11-18 15:00</td>
-                            <td>Claire Fernandez</td>
-                            <td>Updated Patient Status</td>
-                            <td>Patient ID: 321</td>
-                        </tr>
-                        
+                    <tbody id="appointmentTableBody">
+                        <% if (appointmentList && appointmentList.length > 0) { %>
+                            <% appointmentList.forEach(appointment => { %>
+                                <% if (appointment.status !== "Pending" && appointment.status !== "Approved") { %> 
+                                    <tr>
+                                        <td><%= appointment.createdAt || 'N/A' %></td>
+                                        <td><%= appointment.updatedAt || 'N/A' %></td>
+                                        <td><%= appointment.id %></td>
+                                        <td><%= appointment.patientName || 'N/A' %></td>
+                                        <td><%= new Date(appointment.date).toLocaleDateString("en-US", { 
+                                            month: "2-digit", 
+                                            day: "2-digit", 
+                                            year: "numeric" 
+                                        }) || 'N/A' %></td>
+                                        <td><%= new Intl.DateTimeFormat('en-US', { 
+                                            hour: '2-digit', 
+                                            minute: '2-digit', 
+                                            hour12: true 
+                                        }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
+                                        <td><%= appointment.purpose || 'N/A' %></td>
+                                        <td><%= appointment.status || 'N/A' %></td>
+                                    </tr>
+                                <% } %>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="8">No appointments available</td>
+                            </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
         </section>
+
     </main>
+
+    <script>
+        // Function to toggle the visibility of the patient table
+        function togglePatientTable() {
+            var patientTable = document.getElementById("patientTable");
+            var appointmentTable = document.getElementById("appointmentTable");
+            // Hide appointment table if visible
+            appointmentTable.style.display = "none";
+            // Toggle patient table visibility
+            if (patientTable.style.display === "none") {
+                patientTable.style.display = "block";
+            } else {
+                patientTable.style.display = "none";
+            }
+        }
+
+        // Function to toggle the visibility of the appointment table
+        function toggleAppointmentTable() {
+            var patientTable = document.getElementById("patientTable");
+            var appointmentTable = document.getElementById("appointmentTable");
+            // Hide patient table if visible
+            patientTable.style.display = "none";
+            // Toggle appointment table visibility
+            if (appointmentTable.style.display === "none") {
+                appointmentTable.style.display = "block";
+            } else {
+                appointmentTable.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

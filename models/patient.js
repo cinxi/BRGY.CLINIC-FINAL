@@ -42,8 +42,12 @@ module.exports = (sequelize, DataTypes) => {
     Password: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-  });
+    }
+  }, {
+      sequelize,
+      modelName: 'Patient',
+      timestamps: true // Ensure timestamps are enabled
+    });
 
   return Patient;
 };
