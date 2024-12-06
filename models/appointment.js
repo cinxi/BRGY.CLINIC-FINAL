@@ -56,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Appointment',
+    timestamps: true // Ensure timestamps are enabled
   });
 
   return Appointment;

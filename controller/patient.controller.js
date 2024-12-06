@@ -19,7 +19,6 @@ const register_view = (req, res) => {
     res.render("patient/register");
 };
 
-
 const history_view = async (req, res) => {
     const token = req.cookies.token;
 
@@ -36,7 +35,7 @@ const history_view = async (req, res) => {
             return res.redirect("/patient/login");
         }
 
-        // Fetch appointments with statuses 'Cancelled' or 'Completed'
+        // Fetch appointments with statuses 'Cancelled' or 'Completed', including createdAt and updatedAt
         const appointments = await models.Appointment.findAll({
             where: {
                 Patient_ID: decoded.id,
@@ -48,9 +47,19 @@ const history_view = async (req, res) => {
                     as: "Patient",
                     attributes: ["Patient_FirstName", "Patient_LastName"]
                 }
+            ],
+            attributes: [
+                'Appointment_ID',
+                'Appointment_Date',
+                'Appointment_Time',
+                'Appointment_Purpose',
+                'Appointment_Status',
+                'createdAt',  // Include createdAt
+                'updatedAt'   // Include updatedAt
             ]
         });
 
+        // Pass appointments data including createdAt and updatedAt
         res.render("patient/history", {
             firstName: user.Patient_FirstName || "N/A",
             lastName: user.Patient_LastName || "N/A",

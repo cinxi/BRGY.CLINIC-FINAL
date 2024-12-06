@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <div class="header">
+    <!-- <div class="header">
         <div class="user-account">
             <div class="user-profile">
                 <img src="/image/taylor.png" alt="profile-img">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <aside class="sidebar">
         <div class="sidebar-header">
@@ -57,42 +57,54 @@
                         <table class="reports-table">
                             <thead>
                                 <tr>
+
+                                    <th>Created At</th>
+                                    <th>Updated At</th>
                                     <th>Appointment ID</th>
                                     <th>Patient Name</th>
                                     <th>Appointment Date</th>
                                     <th>Appointment Time</th>
                                     <th>Purpose</th>
                                     <th>Status</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody id="appointmentTableBody">
                                 <% if (appointmentList && appointmentList.length > 0) { %>
                                     <% appointmentList.forEach(appointment => { %>
-                                        <% if (appointment.status === "Completed" || appointment.status === "Cancelled") { %> <!-- Fetch "Completed" and "Cancelled" appointments -->
-                                            <tr>
-                                                <td><%= appointment.id %></td>
-                                                <td><%= appointment.patientName || 'N/A' %></td>
-                                                <td><%= new Date(appointment.date).toLocaleDateString("en-US", { 
-                                                        month: "2-digit", 
-                                                        day: "2-digit", 
-                                                        year: "numeric" 
-                                                    }) || 'N/A' %></td>
-                                                <td><%= new Intl.DateTimeFormat('en-US', { 
-                                                        hour: '2-digit', 
-                                                        minute: '2-digit', 
-                                                        hour12: true 
-                                                    }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
-                                                <td><%= appointment.purpose || 'N/A' %></td>
-                                                <td><%= appointment.status || 'N/A' %></td>
-                                            </tr>
+
+                                        <% if (appointment.status !== "Pending"  && appointment.status !== "Approved") { %> 
+
+                                        <tr>
+
+                                            <td><%= appointment.createdAt || 'N/A' %></td>
+                                            <td><%= appointment.updatedAt || 'N/A' %></td>
+                                            <td><%= appointment.id %></td>
+                                            <td><%= appointment.patientName || 'N/A' %></td>
+    
+                                            <td><%= new Date(appointment.date).toLocaleDateString("en-US", { 
+                                                month: "2-digit", 
+                                                day: "2-digit", 
+                                                year: "numeric" 
+                                            }) || 'N/A' %></td>
+                                        <td><%= new Intl.DateTimeFormat('en-US', { 
+                                                hour: '2-digit', 
+                                                minute: '2-digit', 
+                                                hour12: true 
+                                            }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
+                                            <td><%= appointment.purpose || 'N/A' %></td>
+                                            <td><%= appointment.status || 'N/A' %></td>
+                                           
+                                        </tr>
                                         <% } %>
-                                    <% }); %>
+                                        <% }); %>
                                 <% } else { %>
                                     <tr>
-                                        <td colspan="7">No appointments available</td>
+                                        <td colspan="8">No appointments available</td>
                                     </tr>
                                 <% } %>
                             </tbody>
+                            
                         </table>
                     </div>
                 </div>
@@ -105,7 +117,7 @@
         document.getElementById("searchInput").addEventListener("keyup", function () {
             const filter = this.value.toLowerCase();
             const rows = document.querySelectorAll("#appointmentTableBody tr");
-
+    
             rows.forEach((row) => {
                 const cells = row.querySelectorAll("td");
                 const match = Array.from(cells).some((cell) =>
@@ -114,13 +126,13 @@
                 row.style.display = match ? "" : "none";
             });
         });
-
+    
         // Function to filter appointments based on button click
         function filterAppointments(statusFilter) {
             const rows = document.querySelectorAll("#appointmentTableBody tr");
-
+    
             rows.forEach(row => {
-                const status = row.querySelector("td:nth-child(6)").textContent.trim();
+                const status = row.querySelector("td:nth-child(8)").textContent.trim(); 
                 if (statusFilter === "All" || status === statusFilter) {
                     row.style.display = "";
                 } else {
@@ -129,5 +141,6 @@
             });
         }
     </script>
+    
 </body>
 </html>

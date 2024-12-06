@@ -1,64 +1,30 @@
-// //MIDDLEWARE
-// //auth.js
 
-// //to protect sa route
+const jwt = require("jsonwebtoken");
+const models = require("../models");
 
+const authenticateUser = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.redirect("/staff/login?message=SessionExpired");
+    }
 
-// const jwt = require("jsonwebtoken")
+    try {
+        const decoded = jwt.verify(token, "secretKey");
+        models.ClinicStaff.findByPk(decoded.id)
+            .then((staff) => {
+                if (!staff) {
+                    return res.redirect("/staff/login?message=UserNotFound");
+                }
+                req.staff = staff; // Attach staff details to the request
+                next();
+            })
+            .catch(() => res.redirect("/staff/login?message=ServerError"));
+    } catch (error) {
+        return res.redirect("/staff/login?message=InvalidToken");
+    }
+};
 
-
-
-// //check auth user
-// const check_user_auth = (req, res, next) => {
-
-//     //step 1 get token in cookies
-
-//     const token = req.cookies.token
-
-//     //step 2 check if token is empty
-//     if(token) {
-
-//         //step 3 check if token is valid
-//         jwt.verify(token , "secretKey" , (err, decode) => {
-//             if(err) {
-//                 res.redirect("login")
-
-//             }else {
-//                 req.user = decode
-//                 next()
-
-//             }
-
-
-//             })
-
-//     }else {
-//         res.redirect("login")
-
-//     }
-
-
-//     }
-
-
-// //check not auth user
-// const check_user_not_auth = (req, res, next) => {
-//     //step 1 get token in cookies
-
-//     const token = req.cookies.token
-
-//     if(token) {
-//         res.redirect("Admindashboard")
-
-//     }else{
-//         next()
-
-//     }
-    
-// }
-
-// module.exports = { check_user_auth, check_user_not_auth }
-
+module.exports = { authenticateUser };
 
 
 

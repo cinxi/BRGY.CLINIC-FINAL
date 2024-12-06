@@ -17,14 +17,22 @@ const logs_view = async (req, res) => {
             name: `${patient.Patient_FirstName} ${patient.Patient_LastName}`
         }));
 
-        // Fetch appointments data
+        // Fetch appointments data with createdAt and updatedAt
         const appointments = await models.Appointment.findAll({
             include: [{
                 model: models.Patient,
                 as: 'Patient',
                 attributes: ['Patient_FirstName', 'Patient_LastName']
             }],
-            attributes: ['Appointment_ID', 'Appointment_Date', 'Appointment_Time', 'Appointment_Purpose', 'Appointment_Status']
+            attributes: [
+                'Appointment_ID', 
+                'Appointment_Date', 
+                'Appointment_Time', 
+                'Appointment_Purpose', 
+                'Appointment_Status', 
+                'createdAt',  // Include createdAt
+                'updatedAt'   // Include updatedAt
+            ]
         });
 
         // Format the appointment data
@@ -34,7 +42,9 @@ const logs_view = async (req, res) => {
             date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
             time: appointment.Appointment_Time,
             purpose: appointment.Appointment_Purpose,
-            status: appointment.Appointment_Status
+            status: appointment.Appointment_Status,
+            createdAt: new Date(appointment.createdAt).toLocaleString(), // Format createdAt
+            updatedAt: new Date(appointment.updatedAt).toLocaleString()  // Format updatedAt
         }));
 
         // Debugging logs

@@ -151,10 +151,18 @@ const login_staff = (req, res) => {
         });
 };
 
+const Staffdashboard_view = (req, res) => {
+    const staff = req.staff; // Extract staff details from the middleware
+    res.render("staff/Staffdashboard", { staff });
+};
+
+
+
 
 
 
 module.exports = {
+    Staffdashboard_view,
     landing_view,
     login_view,
     register_view,

@@ -38,6 +38,11 @@
         <div class="sticky-header">
             <h4>History</h4>
 
+                <!-- Search Box -->
+        <div id="search-box">
+            <input type="text" id="searchInput" placeholder="Search" onkeyup="searchAppointments()">
+        </div>
+
             <!-- Filter Buttons -->
             <div id="filter-buttons">
                 <button onclick="filterAppointments('All')">All</button>
@@ -47,26 +52,39 @@
         </div>
 
         <!-- Display the appointments history (Cancelled and Completed) -->
+    
+        <div class="table-responsive">
         <table>
             <thead>
                 <tr>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Appointment Date</th>
                     <th>Appointment Time</th>
                     <th>Purpose</th>
                     <th>Status</th>
+                 
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="appointmentTableBody">
                 <% appointments.forEach(appointment => { %>
                     <tr>
+
                         <td>
+                            <%= new Date(appointment.createdAt).toLocaleString() %>
+                        </td>
+                        <td>
+                            <%= new Date(appointment.updatedAt).toLocaleString() %>
+                        </td>
+                        
+                        <td>
+                            
                             <%= new Date(appointment.Appointment_Date).toLocaleDateString("en-US", { 
                                 month: "2-digit", 
                                 day: "2-digit", 
                                 year: "numeric" 
                             }) %>
                         </td>
-                                       
                         <td>
                             <%= new Intl.DateTimeFormat('en-US', { 
                                 hour: '2-digit', 
@@ -76,19 +94,49 @@
                         </td>
                         <td><%= appointment.Appointment_Purpose %></td>
                         <td><%= appointment.Appointment_Status %></td>
+                      
                     </tr>
                 <% }); %>
             </tbody>
         </table>
+
+        </div>
+        
     </main>
 
     <script>
+
+        // Function to search across all table columns
+function searchAppointments() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const rows = document.querySelectorAll("#appointmentTableBody tr");
+
+    rows.forEach(row => {
+        let found = false;
+
+        // Loop through all cells in the row
+        row.querySelectorAll("td").forEach(cell => {
+            if (cell.textContent.toLowerCase().includes(filter)) {
+                found = true;
+            }
+        });
+
+        // Show or hide row based on the search match
+        if (found) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+}
+
         // Function to filter appointments based on button click
         function filterAppointments(statusFilter) {
-            const rows = document.querySelectorAll("table tbody tr");
-
+            const rows = document.querySelectorAll("#appointmentTableBody tr");
+    
             rows.forEach(row => {
-                const status = row.querySelector("td:nth-child(4)").textContent.trim();
+                const status = row.querySelector("td:nth-child(6)").textContent.trim();  
                 if (statusFilter === "All" || status === statusFilter) {
                     row.style.display = "";
                 } else {
@@ -97,5 +145,6 @@
             });
         }
     </script>
+    
 </body>
 </html>

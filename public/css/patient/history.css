@@ -179,46 +179,6 @@ body {
 }
 
 
-/* Button styling */
-.btn {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.btn-success {
-    margin-top: 20px; /* Adjust the value as needed */
-}
-
-.btn-add {
-    background-color: #176B87; 
-    color: white;
-    height: 40px;
-    font-size: 0.8em;
-    align-items: center;
-    display: flex;
-}
-
-.btn-add span{
-    margin-right: 10px;
-}
-
-.btn-edit {
-    background-color: #007bff; 
-    color: white;
-    font-size: x-small;
-}
-
-
-.btn-danger {
-    background-color: #dc3545; 
-    color: white;
-    font-size: x-small;
-    text-decoration: none;
-}
 
 
 table{
@@ -227,12 +187,14 @@ table{
 }
 
 /*horizontal scroll */
+
 .table-responsive {
     overflow-x: auto; 
-    max-height: calc(85vh - 40px);
+    max-height: calc(85vh - 40px); /* Adjust the height as needed */
     width: 100%;
     padding-bottom: 10px;
 }
+
 
 .reports-table {
     width: 100%;
@@ -255,11 +217,7 @@ table{
     border-bottom: 1px solid #e9ecef;
 }
 
-/* .reports-table td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    white-space: nowrap; 
-} */
+
 .reports-table tbody {
     max-height: 50vh; /* Limit table body height for scrolling */
     overflow-y: auto;
@@ -280,7 +238,6 @@ table{
 .reports-table tbody tr:hover {
     background-color: #46b2d643;
 }
-
 
 
 /* Responsive adjustments */
@@ -314,185 +271,7 @@ table{
     }
 }
 
-/* Modal styling */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding-top: 60px;
-}
 
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 60%;
-    max-width: 400px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.modal-content h3{
-    color: #176B87;
-}
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-
-
-
-/* Form Input Styling */
-form {
-    display: flex;
-    flex-direction: column;
-  
-   
-}
-
-form label {
-    font-size: small;
-    margin: 10px 0 5px;
-    color: rgb(91, 85, 85);
-}
-
-form input, form select {
-    padding: 5px;
-    font-size: small;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 5px;
-    width: 100%;
- 
-}
-
-
-
-
-
-form button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-form button:hover {
-    background-color: #0056b3;
-}
-
-/* Button styling */
-.btn-success {
-    background-color: #176B87;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.btn-success:hover {
-    background-color: #11546b;
-}
-
-
-
-
-.form-text{
-    font-size: x-small;
-    color: darkgray;
-}
-
-
-
-
-.add-search {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-
-/* Styles for Search Container */
-.search-container {
-    display: flex-end;
-    align-items: center;
-    margin-top: 10px;
-
-}
-
-.search-container label {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #333;
-    margin-right: 10px;
-}
-
-#searchInput {
-    padding: 8px;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 250px;
-}
-
-
-/* Styles for Search Container with Icon */
-.search-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    position: relative;
-}
-
-.search-container .search-icon {
-    position: absolute;
-    left: 10px;
-    color: #888;
-    font-size: 1.25rem;
-}
-
-#searchInput {
-    padding: 8px 8px 8px 35px; /* Padding adjusted for icon */
-    font-size: 0.9rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 250px;
-}
-
-
-
-
-.sticky-header {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
 
 .sticky-header h4 {
     margin: 0;
@@ -500,6 +279,8 @@ form button:hover {
     color: #333;
     font-weight: 600;
 }
+
+
 
 /* Table Styles */
 table {
@@ -541,32 +322,6 @@ table tr:hover {
     }
 }
 
-/* 
-
-  //filter 
-
-    #status-filter {
-        padding: 8px 8px;
-        font-size: small;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-     
-        background-color: #f4f4f4;
-        color: #333;
-        cursor: pointer;
-        outline: none;
-        transition: background-color 0.3s ease;
-    }
-
-    #status-filter:focus {
-        background-color: #e6e6e6;
-    }
-
-    #status-filter option {
-        padding: 10px;
-    } */
-
-
 
   
         /* Styling the filter buttons container */
@@ -574,12 +329,13 @@ table tr:hover {
             display: flex;
             gap: 10px;
             margin: 10px 0;
+          
         }
 
         /* Basic button styles */
         #filter-buttons button {
             padding: 10px 10px;
-            font-size: small;
+            font-size: x-small;
             border: none;
             border-radius: 5px;
             cursor: pointer;

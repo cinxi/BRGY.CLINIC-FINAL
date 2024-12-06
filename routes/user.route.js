@@ -106,6 +106,10 @@ router.get('/staff/markAsComplete/:id', appointmentController.markAsComplete);
 
 router.get('/api/approved-appointments',appointmentController.fetchApprovedAppointments);
 
+const { authenticateUser } = require("../middleware/auth");
 
+
+// Apply authentication middleware to secure routes
+router.get("/staff/Staffdashboard", authenticateUser, userController.Staffdashboard_view);
 module.exports = router
 
