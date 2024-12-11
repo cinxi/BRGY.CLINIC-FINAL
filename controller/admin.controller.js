@@ -126,6 +126,40 @@ const getTotalClinicStaff = (req, res) => {
         });
 };
 
+// Get total active clinic staff
+const getTotalActiveClinicStaff = (req, res) => {
+    models.ClinicStaff.count({
+        where: {
+            Users_Status: 'Active'  
+        }
+    })
+    .then(activeStaff => {
+        res.json({ activeStaff });
+    })
+    .catch(error => {
+        console.error('Error fetching active clinic staff:', error);
+        res.status(500).json({ error: 'Unable to fetch data' });
+    });
+};
+
+
+// Get total active patients
+const getTotalActivePatients = (req, res) => {
+    models.Patient.count({
+        where: {
+            Patient_Status: 'Active' 
+        }
+    })
+    .then(activePatients => {
+        res.json({ activePatients });
+    })
+    .catch(error => {
+        console.error('Error fetching active patients:', error);
+        res.status(500).json({ error: 'Unable to fetch data' });
+    });
+};
+
+
 
 
 
@@ -231,6 +265,9 @@ module.exports = {
     updateUser,
     // deleteUser,
     landing_view,
-    reports_view
+    reports_view,
+    getTotalActiveClinicStaff,
+    getTotalActivePatients
+    
     
 };

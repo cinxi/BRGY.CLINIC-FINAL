@@ -1,28 +1,3 @@
-// //admin.route.js
-
-// const express = require("express")
-// const admin_Controller = require("../controller/admin.controller.js")
-// const auth = require("../middleware/auth.js")
-
-// const router = express.Router()
-
- 
-// //get
-
-// router.get("/Admindashboard", auth.check_user_auth, admin_Controller.Admindashboard_view)
-// router.get("/usermanagement",  auth.check_user_auth, admin_Controller.usermanagement_view)
-// router.get("/logs",  auth.check_user_auth, admin_Controller.logs_view)
-
-
-// //staff
-// router.get("/Staffdashboard",  auth.check_user_auth, admin_Controller.Staffdashboard_view)
-// router.get("/appointment",  auth.check_user_auth, admin_Controller.appointment_view)
-// router.get("/patients",  auth.check_user_auth, admin_Controller.patients_view)
-
-
-// router.get("/logout", auth.check_user_auth, admin_Controller.logout)
-
-// module.exports = router
 
 
 //admin.route.js
@@ -74,6 +49,8 @@ router.post("/admin/editUser/:id", admin_Controller.updateUser);
 router.post("/admin/editUser/:id", admin_Controller.updateUser);
 
 
+router.get("/admin/getTotalActiveClinicStaff", admin_Controller.getTotalActiveClinicStaff);
+router.get('/admin/getTotalActivePatients', admin_Controller.getTotalActivePatients);
 
 
 module.exports = router;
