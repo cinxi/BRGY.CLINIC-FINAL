@@ -160,6 +160,12 @@ body {
     border-radius: 15px;
 }
 
+.sticky-header h4 {
+    font-size: 1.25rem;
+    color: #176B87;
+    margin-bottom: 15px;
+}
+
 
 .main-content {
     background-color: #ffffff;
@@ -502,11 +508,6 @@ form button:hover {
 }
 
 
-.sticky-header h4 {
-    font-size: 1.25rem;
-    color: #176B87;
-    margin-bottom: 15px;
-}
 
 
 

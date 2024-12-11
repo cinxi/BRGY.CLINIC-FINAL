@@ -160,6 +160,12 @@ body {
     border-radius: 15px;
 }
 
+.sticky-header h4 {
+    font-size: 1.25rem;
+    color: #176B87;
+    margin-bottom: 15px;
+}
+
 
 .main-content {
     background-color: #ffffff;
@@ -273,14 +279,6 @@ table{
 
 
 
-.sticky-header h4 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-    font-weight: 600;
-}
-
-
 
 /* Table Styles */
 table {
@@ -322,33 +320,59 @@ table tr:hover {
     }
 }
 
-
-  
-        /* Styling the filter buttons container */
-        #filter-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0;
-          
-        }
-
-        /* Basic button styles */
-        #filter-buttons button {
-            padding: 10px 10px;
-            font-size: x-small;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: rgb(105, 146, 233); 
-            color: white; 
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        /* Hover effect */
-        #filter-buttons button:hover {
-            background-color: rgb(128, 167, 199); ; 
-            transform: scale(1.05);
-        }
-
    
 
+/* Styling the search input */
+.search-input {
+    width: 100%;
+    max-width: 300px; /* Adjust width as needed */
+    padding: 10px 15px;
+    margin: 10px 0;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+    border-color: #176B87;
+    box-shadow: 0 0 5px rgba(23, 107, 135, 0.5);
+}
+
+
+/* Updated styling for filter dropdown with an icon */
+.filter-dropdown {
+    width: 200px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    appearance: none;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+    /* Add padding to the right for the icon */
+    padding-right: 30px;
+
+    /* Add the caret icon using background */
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 6.344c-.566-.566-.162-1.528.637-1.528h9.824c.8 0 1.203.962.637 1.528l-4.796 4.796c-.39.39-1.024.39-1.414 0z"/></svg>') no-repeat right 10px center;
+    background-size: 16px;
+}
+
+.filter-dropdown:focus {
+    border-color: #176B87;
+    box-shadow: 0 0 5px rgba(23, 107, 135, 0.5);
+}
+
+/* Responsive adjustments for the dropdown */
+@media (max-width: 768px) {
+    .filter-dropdown {
+        width: 100%;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}

@@ -11,18 +11,6 @@
 </head>
 <body>
 
-    <!-- <div class="header">
-        <div class="user-account">
-            <div class="user-profile">
-                <img src="/image/taylor.png" alt="profile-img">
-                <div class="user-detail">
-                    <h3> Taylor Swift</h3>
-                    <span>Clinic Staff</span>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
     <aside class="sidebar">
         <div class="sidebar-header">
             <img src="/image/brgy-logo.png" alt="logo">
@@ -38,86 +26,84 @@
     </aside>
 
     <main class="main-content p-4 w-100">
-        <section class="sticky-header ">  
-                <h4>Logs</h4>
+        <div class="sticky-header">
+            <h4>Logs</h4>
+        </div>
 
-                <!-- Search Input -->
-                <input type="text" id="searchInput" placeholder="Search..." class="search-input">
+        <div id="search-box">
+            <!-- Search Input -->
+            <input type="text" id="searchInput" placeholder="Search..." class="search-input">
 
-                <!-- Filter Buttons -->
-                <div id="filter-buttons">
-                    <button onclick="filterAppointments('All')">All</button>
-                    <button onclick="filterAppointments('Completed')">Completed</button>
-                    <button onclick="filterAppointments('Cancelled')">Cancelled</button>
-                </div>
-     </div>
+            </div>
+            
 
-                <div class="appointment-table">
-                    <div class="table-responsive">
-                        <table class="reports-table">
-                            <thead>
-                                <tr>
+            <!-- Filter Dropdown -->
 
-                                    <th>Created At</th>
-                                    <th>Updated At</th>
-                                    <th>Appointment ID</th>
-                                    <th>Patient Name</th>
-                                    <th>Appointment Date</th>
-                                    <th>Appointment Time</th>
-                                    <th>Purpose</th>
-                                    <th>Status</th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody id="appointmentTableBody">
-                                <% if (appointmentList && appointmentList.length > 0) { %>
-                                    <% appointmentList.forEach(appointment => { %>
+            <div id="filter-container">
+            <select id="statusFilter" class="filter-dropdown">
+                <option value="All">All</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+       
+        </div>
 
-                                        <% if (appointment.status !== "Pending"  && appointment.status !== "Approved") { %> 
-
-                                        <tr>
-
-                                            <td><%= appointment.createdAt || 'N/A' %></td>
-                                            <td><%= appointment.updatedAt || 'N/A' %></td>
-                                            <td><%= appointment.id %></td>
-                                            <td><%= appointment.patientName || 'N/A' %></td>
-    
-                                            <td><%= new Date(appointment.date).toLocaleDateString("en-US", { 
-                                                month: "2-digit", 
-                                                day: "2-digit", 
-                                                year: "numeric" 
-                                            }) || 'N/A' %></td>
-                                        <td><%= new Intl.DateTimeFormat('en-US', { 
-                                                hour: '2-digit', 
-                                                minute: '2-digit', 
-                                                hour12: true 
-                                            }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
-                                            <td><%= appointment.purpose || 'N/A' %></td>
-                                            <td><%= appointment.status || 'N/A' %></td>
-                                           
-                                        </tr>
-                                        <% } %>
-                                        <% }); %>
-                                <% } else { %>
+        <div class="appointment-table">
+            <div class="table-responsive">
+                <table class="reports-table">
+                    <thead>
+                        <tr>
+                            <th>Created At</th>
+                            <th>Updated At</th>
+                            <th>Appointment ID</th>
+                            <th>Patient Name</th>
+                            <th>Appointment Date</th>
+                            <th>Appointment Time</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentTableBody">
+                        <% if (appointmentList && appointmentList.length > 0) { %>
+                            <% appointmentList.forEach(appointment => { %>
+                                <% if (appointment.status !== "Pending"  && appointment.status !== "Approved") { %> 
                                     <tr>
-                                        <td colspan="8">No appointments available</td>
+                                        <td><%= appointment.createdAt || 'N/A' %></td>
+                                        <td><%= appointment.updatedAt || 'N/A' %></td>
+                                        <td><%= appointment.id %></td>
+                                        <td><%= appointment.patientName || 'N/A' %></td>
+                                        <td><%= new Date(appointment.date).toLocaleDateString("en-US", { 
+                                            month: "2-digit", 
+                                            day: "2-digit", 
+                                            year: "numeric" 
+                                        }) || 'N/A' %></td>
+                                        <td><%= new Intl.DateTimeFormat('en-US', { 
+                                            hour: '2-digit', 
+                                            minute: '2-digit', 
+                                            hour12: true 
+                                        }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
+                                        <td><%= appointment.purpose || 'N/A' %></td>
+                                        <td><%= appointment.status || 'N/A' %></td>
                                     </tr>
                                 <% } %>
-                            </tbody>
-                            
-                        </table>
-                    </div>
-                </div>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="8">No appointments available</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
             </div>
-        </section>
+        </div>
     </main>
 
-    <!-- Search Functionality Script -->
+    <!-- Scripts -->
     <script>
         document.getElementById("searchInput").addEventListener("keyup", function () {
             const filter = this.value.toLowerCase();
             const rows = document.querySelectorAll("#appointmentTableBody tr");
-    
+
             rows.forEach((row) => {
                 const cells = row.querySelectorAll("td");
                 const match = Array.from(cells).some((cell) =>
@@ -126,11 +112,11 @@
                 row.style.display = match ? "" : "none";
             });
         });
-    
-        // Function to filter appointments based on button click
-        function filterAppointments(statusFilter) {
+
+        document.getElementById("statusFilter").addEventListener("change", function () {
+            const statusFilter = this.value;
             const rows = document.querySelectorAll("#appointmentTableBody tr");
-    
+
             rows.forEach(row => {
                 const status = row.querySelector("td:nth-child(8)").textContent.trim(); 
                 if (statusFilter === "All" || status === statusFilter) {
@@ -139,8 +125,7 @@
                     row.style.display = "none";
                 }
             });
-        }
+        });
     </script>
-    
 </body>
 </html>

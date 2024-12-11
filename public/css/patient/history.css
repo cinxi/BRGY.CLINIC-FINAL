@@ -161,6 +161,13 @@ body {
 }
 
 
+.sticky-header h4 {
+    font-size: 1.25rem;
+    color: #176B87;
+    margin-bottom: 15px;
+}
+
+
 .main-content {
     background-color: #ffffff;
     max-height: 85vh;
@@ -273,13 +280,6 @@ table{
 
 
 
-.sticky-header h4 {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-    font-weight: 600;
-}
-
 
 
 /* Table Styles */
@@ -323,32 +323,55 @@ table tr:hover {
 }
 
 
-  
-        /* Styling the filter buttons container */
-        #filter-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0;
-          
-        }
+ /* Styling the container for search and filter */
+#search-filter-container {
+    display: flex;
+    justify-content: space-between; /* Aligns items to opposite sides */
+    align-items: center; /* Centers vertically */
+    margin: 10px 0;
+    padding: 0 15px; /* Adjust as needed for spacing */
+}
 
-        /* Basic button styles */
-        #filter-buttons button {
-            padding: 10px 10px;
-            font-size: x-small;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: gray; 
-            color: white; 
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+/* Styling for the search box */
+#search-box {
+    flex: 1; /* Allows it to grow and take available space */
+    margin-right: 20px; /* Adds space between search and filter */
+}
 
-        /* Hover effect */
-        #filter-buttons button:hover {
-            background-color: rgb(165, 159, 159); ; 
-            transform: scale(1.05);
-        }
+#searchInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-   
+#searchInput:focus {
+    border-color: #176B87;
+    box-shadow: 0 0 5px rgba(23, 107, 135, 0.4);
+}
 
+/* Styling for the filter dropdown */
+#filter-container {
+    flex: 0; /* Prevents the dropdown from stretching */
+}
+
+.filter-dropdown {
+    width: 200px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 6.344c-.566-.566-.162-1.528.637-1.528h9.824c.8 0 1.203.962.637 1.528l-4.796 4.796c-.39.39-1.024.39-1.414 0z"/></svg>') no-repeat right 10px center;
+    background-size: 16px;
+    appearance: none;
+}
+
+.filter-dropdown:focus {
+    border-color: #176B87;
+    box-shadow: 0 0 5px rgba(23, 107, 135, 0.4);
+}

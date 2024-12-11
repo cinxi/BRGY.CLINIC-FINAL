@@ -33,23 +33,31 @@
             <li><a href="login"><span class="material-symbols-outlined">logout</span>Logout</a></li>
         </ul>
     </aside>
+    
 
-    <main class="main-content">
+     <!-- Main Content -->
+     <main class="main-content">
         <div class="sticky-header">
             <h4>History</h4>
+        </div>
 
                 <!-- Search Box -->
-        <div id="search-box">
-            <input type="text" id="searchInput" placeholder="Search" onkeyup="searchAppointments()">
-        </div>
+                <div id="search-filter-container">
+                    <div id="search-box">
+                        <input type="text" id="searchInput" placeholder="Search" onkeyup="searchAppointments()">
+                    </div>
+                
+                    <!-- Filter Dropdown -->
+                    <div id="filter-container">
+                        <select id="statusFilter" class="filter-dropdown" onchange="filterAppointmentsByDropdown()">
+                            <option value="All">All</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                </div>
+                
 
-            <!-- Filter Buttons -->
-            <div id="filter-buttons">
-                <button onclick="filterAppointments('All')">All</button>
-                <button onclick="filterAppointments('Completed')">Completed</button>
-                <button onclick="filterAppointments('Cancelled')">Cancelled</button>
-            </div>
-        </div>
 
         <!-- Display the appointments history (Cancelled and Completed) -->
     
@@ -131,19 +139,22 @@ function searchAppointments() {
     });
 }
 
-        // Function to filter appointments based on button click
-        function filterAppointments(statusFilter) {
-            const rows = document.querySelectorAll("#appointmentTableBody tr");
-    
-            rows.forEach(row => {
-                const status = row.querySelector("td:nth-child(6)").textContent.trim();  
-                if (statusFilter === "All" || status === statusFilter) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
-                }
-            });
+
+// Function to filter appointments using dropdown
+function filterAppointmentsByDropdown() {
+    const statusFilter = document.getElementById("statusFilter").value;
+    const rows = document.querySelectorAll("#appointmentTableBody tr");
+
+    rows.forEach(row => {
+        const status = row.querySelector("td:nth-child(6)").textContent.trim();
+        if (statusFilter === "All" || status === statusFilter) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
         }
+    });
+}
+
     </script>
     
 </body>
