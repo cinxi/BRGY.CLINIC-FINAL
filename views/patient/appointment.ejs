@@ -113,15 +113,16 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         // Initialize Flatpickr on date input fields
-        document.addEventListener("DOMContentLoaded", function() {
-            flatpickr(".date-picker", {
-                altInput: true,
-                altFormat: "F j, Y",
-                dateFormat: "Y-m-d",
-                minDate: "today", // Prevent past dates
-            });
-        });
-    </script>
+       document.addEventListener("DOMContentLoaded", function() {
+           flatpickr(".date-picker", {
+               altInput: true,
+               altFormat: "F j, Y",
+               dateFormat: "Y-m-d",
+               minDate: new Date().fp_incr(1), // Prevent selecting today, only allow dates starting from tomorrow
+           });
+       });
+       
+       </script>
 
 
 
@@ -203,16 +204,17 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Apply Flatpickr to all date picker fields
-        flatpickr(".date-picker", {
-            altInput: true,
-            altFormat: "F j, Y",
-            dateFormat: "Y-m-d",
-            minDate: "today", // Prevent past dates
-        });
-    });
-</script>
+    // Initialize Flatpickr on date input fields
+   document.addEventListener("DOMContentLoaded", function() {
+       flatpickr(".date-picker", {
+           altInput: true,
+           altFormat: "F j, Y",
+           dateFormat: "Y-m-d",
+           minDate: new Date().fp_incr(1), // Prevent selecting today, only allow dates starting from tomorrow
+       });
+   });
+   
+   </script>
 
 
 
