@@ -79,7 +79,7 @@ const getTotalPatients = (req, res) => {
         });
 };
 
-// editPatient view in addPatient.controller.js
+// editPatient view 
 const editPatient = (req, res) => {
     const patientId = req.params.id;
     models.Patient.findByPk(patientId)

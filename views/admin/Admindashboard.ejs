@@ -30,70 +30,94 @@
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">Dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">Manage_Accounts</span>User Management</a></li>
-            <li><a href="logs"><span class="material-symbols-outlined">History</span>Logs</a></li>
+            <li><a href="patients"><span class="material-symbols-outlined"> supervisor_account  </span>Patients Record</a></li>
+            <li><a href="logs"><span class="material-symbols-outlined">  pending_actions </span>Logs</a></li>
             <li><a href="reports"><span class="material-symbols-outlined">insert_chart</span>Reports</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">Logout</span>Logout</a></li>
         </ul>
         
     </aside>
 
-    <main class="main-content p-4 w-100">
+
+     <!-- Main Content -->
+     <main class="main-content">
         <div class="sticky-header">
-            <h4>Statistic</h4>
+            <h2>Dashboard</h2>
         </div>
-        
-        <!-- Dashboard Content -->
-         <div class="dashboard-cards">
-            <div class="dashboard-users">
-                <!-- Total Users (Clinic Staff Only) -->
-                <div class="card">
-                    <h3>Total Clinic Staff</h3>
+    
+        <!-- Metrics Section -->
+        <section class="reports-metrics">
+            <div class="metrics">
+                <div class="metrics-group">
+
+                   <div class="metric-box">
+                    <h6>Total Clinic Staff</h6>
                     <div class="stat-number" id="totalStaffUsers">
-                        <!-- The value will be dynamically populated by the backend -->
                         <span>Loading...</span>
                     </div>
-                </div>
-            </div>
-             
-            <div class="dashboard-activeStaff">
-                <!-- Total Active Staff -->
-                <div class="card">
-                    <h3>Active Clinic Staff</h3>
+
+                    
+                    </div>
+                    <div class="metric-box">
+                        <h6>Active Clinic Staff</h6>
                     <div class="stat-number" id="totalActiveStaff">
-                        <!-- The value will be dynamically populated by the backend -->
                         <span>Loading...</span>
                     </div>
+                    </div> 
                 </div>
-            </div>
-
-            <div class="dashboard-patients">
-                <!-- Total Patients -->
-                <div class="card">
-                    <h3>Registered Patients</h3>
+                
+                <div class="metrics-group">
+                    <div class="metric-box">
+                        <h6>Registered Patients</h6>
                     <div class="stat-number" id="totalPatients">
-                        <!-- The value will be dynamically populated by the backend -->
                         <span>Loading...</span>
                     </div>
-                </div>
-            </div>
+                    </div>
 
-
-            <div class="dashboard-activePatients">
-                <!-- Total Active Patients -->
-                <div class="card">
-                    <h3>Active Patients</h3>
+                    <div class="metric-box">
+                         <h6>Active Patients</h6>
                     <div class="stat-number" id="totalActivePatients">
                         <span>Loading...</span>
                     </div>
+                    </div>
                 </div>
+                
             </div>
+        </section>
 
-          
+        <!-- Recent Appointments nga section-->
+         <div class="recent-container">
+            <section class="recent-appointments">
+                <h4>Recent Appointments</h4>
+                <ul id="appointmentList">
+                    <li>Loading...</li>
+                </ul>
+            </section>
+
+            <section class="recent-patients-container">
+                <div class="recent-patients">
+                    <h3>Recently Registered Patients</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Registration Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-patients-list">
+                            <!-- JavaScript will populate this -->
+                        </tbody>
+                    </table>
+                </div>
+                
+            </section>
+         </div>
+        
         
 
     </main>
 
-    <!-- Scripts -->
+
     <script>
         // Fetch total clinic staff
         fetch('/admin/getTotalClinicStaff')
@@ -139,6 +163,65 @@
                 console.error('Error fetching active patients:', error);
                 document.getElementById('totalActivePatients').innerText = 'Error loading data';
             });
+
+            //fetch recent appointments
+
+            fetch('/admin/getRecentAppointments')
+            .then(response => response.json())
+            .then(data => {
+                const appointmentList = document.getElementById('appointmentList');
+                appointmentList.innerHTML = ''; // Clear existing content
+                if (data.length > 0) {
+                    data.forEach(appointment => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${appointment.patientName} - ${appointment.date} (${appointment.status})`;
+                        appointmentList.appendChild(listItem);
+                    });
+                } else {
+                    appointmentList.innerHTML = '<li>No recent appointments</li>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching recent appointments:', error);
+                document.getElementById('appointmentList').innerHTML = '<li>Error loading appointments</li>';
+            });
+
+            //fetch recent reg. patients
+
+            // Fetch recent patients from the backend
+        fetch('/admin/getRecentpatients')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => updateDashboardUI(data))
+            .catch(error => {
+                console.error('Error fetching recent patients:', error);
+                const tbody = document.getElementById('recent-patients-list');
+                tbody.innerHTML = '<tr><td colspan="2">Error fetching data</td></tr>';
+            });
+
+        // Update the table with patient data
+        function updateDashboardUI(patients) {
+            const tbody = document.getElementById('recent-patients-list');
+            tbody.innerHTML = ''; // Clear existing content
+
+            if (patients.length > 0) {
+                patients.forEach(patient => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${patient.name}</td>
+                        <td>${patient.registrationDate}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } else {
+                tbody.innerHTML = '<tr><td colspan="2">No recent patients found</td></tr>';
+            }
+        }
+
 
     </script>
 

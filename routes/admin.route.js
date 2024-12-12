@@ -6,11 +6,14 @@ const express = require("express");
 const admin_Controller = require("../controller/admin.controller.js");
 const addPatientController = require("../controller/addPatient.controller.js");
 const appointmentController = require("../controller/appointment.controller.js");
+const patient_Controller = require("../controller/patient.controller.js");
 
 const router = express.Router();
 
 // Admin Routes
 
+
+router.get("/admin/patients", patient_Controller.patients_view);
 router.get("/admin/landing", admin_Controller.landing_view);
 router.get("/admin/Admindashboard", admin_Controller.Admindashboard_view);
 router.get("/admin/usermanagement", admin_Controller.usermanagement_view);
@@ -52,5 +55,12 @@ router.post("/admin/editUser/:id", admin_Controller.updateUser);
 router.get("/admin/getTotalActiveClinicStaff", admin_Controller.getTotalActiveClinicStaff);
 router.get('/admin/getTotalActivePatients', admin_Controller.getTotalActivePatients);
 
+
+// Route for fetching appointment metrics
+router.get('/api/appointments/metrics', appointmentController.fetchAppointmentMetrics);
+
+router.get('/admin/getRecentappointments', admin_Controller.getRecentAppointments);
+
+router.get('/admin/getRecentPatients', admin_Controller.getRecentPatients);
 
 module.exports = router;

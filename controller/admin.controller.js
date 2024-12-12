@@ -251,6 +251,62 @@ const updateUser = (req, res) => {
 // };
 
 
+//get the recent appointments
+const getRecentAppointments = async (req, res) => {
+    try {
+        const statusFilter = req.query.status || null;
+        const whereClause = statusFilter ? { Appointment_Status: statusFilter } : {};
+
+        const appointments = await models.Appointment.findAll({
+            where: whereClause,
+            include: [
+                {
+                    model: models.Patient,
+                    as: 'Patient',
+                    attributes: ['Patient_FirstName', 'Patient_LastName']
+                }
+            ],
+            order: [['Appointment_Date', 'DESC'], ['Appointment_Time', 'DESC']],
+            limit: 5
+        });
+
+        const recentAppointments = appointments.map(appointment => ({
+            patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
+            date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
+            time: appointment.Appointment_Time,
+            status: appointment.Appointment_Status
+        }));
+
+        res.json(recentAppointments);
+    } catch (error) {
+        console.error('Error fetching recent appointments:', error);
+        res.status(500).json({ error: 'Failed to fetch recent appointments' });
+    }
+};
+
+    //GET THE RECENT reg. patients
+
+    const getRecentPatients = async (req, res) => {
+        try {
+            const recentPatients = await models.Patient.findAll({
+                attributes: ['Patient_FirstName', 'Patient_LastName', 'createdAt'],
+                order: [['createdAt', 'DESC']],
+                limit: 5 // Fetch recent 5 patients
+            });
+            
+            res.json(recentPatients.map(patient => ({
+                name: `${patient.Patient_FirstName} ${patient.Patient_LastName}`,
+                registrationDate: new Date(patient.createdAt).toLocaleDateString("en-CA")
+            })));
+        } catch (error) {
+            console.error('Error fetching recent patients:', error);
+            res.status(500).json({ error: 'Unable to fetch recent patients' });
+        }
+    };
+        
+
+
+
 module.exports = {
     Admindashboard_view,
     usermanagement_view,
@@ -267,7 +323,7 @@ module.exports = {
     landing_view,
     reports_view,
     getTotalActiveClinicStaff,
-    getTotalActivePatients
-    
-    
+    getTotalActivePatients,
+    getRecentAppointments,
+    getRecentPatients    
 };

@@ -32,8 +32,9 @@
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">dashboard</span>Dashboard</a></li>
             <li><a href="usermanagement"><span class="material-symbols-outlined">manage_accounts</span>User Management</a></li>
-            <li><a href="logs"><span class="material-symbols-outlined">history</span>Logs</a></li>
-            <li><a href="reports"><span class="material-symbols-outlined"> insert_chart  </span> Reports</a></li>
+            <li><a href="patients"><span class="material-symbols-outlined">supervisor_account</span>Patients Record</a></li>
+            <li><a href="logs"><span class="material-symbols-outlined">pending_actions</span>Logs</a></li>
+            <li><a href="reports"><span class="material-symbols-outlined">insert_chart</span> Reports</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">logout</span>Logout</a></li>
         </ul>
     </aside>
@@ -41,40 +42,23 @@
     <!-- Main Content -->
     <main class="main-content">
 
-        <section class="logs-section">
-            <h4>System Logs</h4>
+        <section class="sticky-header">
+            <h4>Apppointment Logs</h4>
 
-            <!-- Button to View Patients -->
-            <button onclick="togglePatientTable()">View Patients</button>
-
-            <!-- Button to View Appointments -->
-            <button onclick="toggleAppointmentTable()">View Appointments</button>
-
-           <!-- Table to Display Patient List -->
-<div class="table-responsive" id="patientTable" style="display:none;">
-    <table class="reports-table">
-        <thead>
-            <tr>
-                <th>Created At</th>
-               <th>Updated At</th>
-                <th>Patient ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Gender</th>
-                <th>Date of Birth</th>
-                <th>Contact Number</th>
-                <th>Address</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-         
-        </tbody>
-    </table>
-</div>
+            <!-- Search and Filter -->
+            <div class="filter-section">
+                <input type="text" id="searchInput" placeholder="Search by Patient Name" onkeyup="filterTable()">
+                <select id="statusFilter" onchange="filterTable()">
+                    <option value=""> Filter by Status: </option>
+                    <option value="Approved">Approved</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
 
             <!-- Table to Display Appointments -->
-            <div class="table-responsive" id="appointmentTable" style="display:none;">
+            <div class="table-responsive" id="appointmentTable">
                 <table class="reports-table">
                     <thead>
                         <tr>
@@ -91,26 +75,24 @@
                     <tbody id="appointmentTableBody">
                         <% if (appointmentList && appointmentList.length > 0) { %>
                             <% appointmentList.forEach(appointment => { %>
-                                <% if (appointment.status !== "Pending" && appointment.status !== "Approved") { %> 
-                                    <tr>
-                                        <td><%= appointment.createdAt || 'N/A' %></td>
-                                        <td><%= appointment.updatedAt || 'N/A' %></td>
-                                        <td><%= appointment.id %></td>
-                                        <td><%= appointment.patientName || 'N/A' %></td>
-                                        <td><%= new Date(appointment.date).toLocaleDateString("en-US", { 
-                                            month: "2-digit", 
-                                            day: "2-digit", 
-                                            year: "numeric" 
-                                        }) || 'N/A' %></td>
-                                        <td><%= new Intl.DateTimeFormat('en-US', { 
-                                            hour: '2-digit', 
-                                            minute: '2-digit', 
-                                            hour12: true 
-                                        }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
-                                        <td><%= appointment.purpose || 'N/A' %></td>
-                                        <td><%= appointment.status || 'N/A' %></td>
-                                    </tr>
-                                <% } %>
+                                <tr>
+                                    <td><%= appointment.createdAt || 'N/A' %></td>
+                                    <td><%= appointment.updatedAt || 'N/A' %></td>
+                                    <td><%= appointment.id %></td>
+                                    <td><%= appointment.patientName || 'N/A' %></td>
+                                    <td><%= new Date(appointment.date).toLocaleDateString("en-US", { 
+                                        month: "2-digit", 
+                                        day: "2-digit", 
+                                        year: "numeric" 
+                                    }) || 'N/A' %></td>
+                                    <td><%= new Intl.DateTimeFormat('en-US', { 
+                                        hour: '2-digit', 
+                                        minute: '2-digit', 
+                                        hour12: true 
+                                    }).format(new Date(`1970-01-01T${appointment.time}`)) || 'N/A' %></td>
+                                    <td><%= appointment.purpose || 'N/A' %></td>
+                                    <td><%= appointment.status || 'N/A' %></td>
+                                </tr>
                             <% }); %>
                         <% } else { %>
                             <tr>
@@ -125,31 +107,25 @@
     </main>
 
     <script>
-        // Function to toggle the visibility of the patient table
-        function togglePatientTable() {
-            var patientTable = document.getElementById("patientTable");
-            var appointmentTable = document.getElementById("appointmentTable");
-            // Hide appointment table if visible
-            appointmentTable.style.display = "none";
-            // Toggle patient table visibility
-            if (patientTable.style.display === "none") {
-                patientTable.style.display = "block";
-            } else {
-                patientTable.style.display = "none";
-            }
-        }
+        function filterTable() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const tableBody = document.getElementById('appointmentTableBody');
+            const rows = tableBody.getElementsByTagName('tr');
 
-        // Function to toggle the visibility of the appointment table
-        function toggleAppointmentTable() {
-            var patientTable = document.getElementById("patientTable");
-            var appointmentTable = document.getElementById("appointmentTable");
-            // Hide patient table if visible
-            patientTable.style.display = "none";
-            // Toggle appointment table visibility
-            if (appointmentTable.style.display === "none") {
-                appointmentTable.style.display = "block";
-            } else {
-                appointmentTable.style.display = "none";
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const patientName = cells[3]?.textContent.toLowerCase() || '';
+                const status = cells[7]?.textContent || '';
+
+                if (
+                    (patientName.includes(searchInput) || !searchInput) &&
+                    (status === statusFilter || !statusFilter)
+                ) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
             }
         }
     </script>

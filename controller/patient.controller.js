@@ -6,12 +6,27 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 
+//admin 
+// Render Patients View with Fetched Data
+const patients_view = (req, res) => {
+    models.Patient.findAll()
+        .then(patients => {
+            res.render("admin/patients", { patients });
+        })
+        .catch(error => {
+            console.error("Error fetching patients:", error);
+            res.render("admin/patients", { patients: [] });
+        });
+};
+
+
+
 const landing_view = (req, res) => {
     res.render("patient/landing");
 };
 
 const login_view = (req, res) => {
-    res.render("patient/login", { message: null }); // Render the login page with no initial message
+    res.render("patient/login", { message: null }); 
 };
 
 
@@ -438,7 +453,8 @@ module.exports = {
     addAppointment,
     rescheduleAppointment,
     cancelAppointment,
-    landing_view
+    landing_view,
+    patients_view
 
 
 };

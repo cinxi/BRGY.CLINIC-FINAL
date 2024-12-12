@@ -288,6 +288,30 @@ const fetchApprovedAppointments = async (req, res) => {
 
 
 
+//fetch sa admin reportss
+
+
+// Fetch appointment counts by status
+const fetchAppointmentMetrics = async (req, res) => {
+    try {
+        const statuses = ['Approved', 'Pending', 'Cancelled', 'Completed'];
+        const counts = {};
+
+        for (const status of statuses) {
+            counts[status] = await models.Appointment.count({
+                where: { Appointment_Status: status }
+            });
+        }
+
+        res.json(counts); // Send the counts as JSON
+    } catch (error) {
+        console.error("Error fetching appointment metrics:", error);
+        res.status(500).json({ error: "Failed to fetch appointment metrics" });
+    }
+};
+
+
+
 
 module.exports = {
     fetchApprovedAppointments,
@@ -298,12 +322,7 @@ module.exports = {
     // deleteAppointment,
     approveAppointment,
     markAsComplete,
-    logs_view
-
-    
-    
-
-
-    
+    logs_view,
+    fetchAppointmentMetrics
     
 };
