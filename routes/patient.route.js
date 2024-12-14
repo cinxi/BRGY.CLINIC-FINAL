@@ -64,5 +64,28 @@ router.post("/cancel-appointment", patientController.cancelAppointment);
 
 
 
+router.get('/appointments', async (req, res) => {
+    try {
+      const appointments = await Appointment.findAll({
+        include: [
+          {
+            model: db.Patient,
+            as: 'Patient',
+            attributes: ['name'],
+          },
+          {
+            model: db.ClinicStaff,
+            as: 'StaffInCharge',
+            attributes: ['name'],
+          },
+        ],
+      });
+      res.status(200).json(appointments); // Return fetched appointments
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to fetch appointments' });
+    }
+  });
+  
 
 module.exports = router;

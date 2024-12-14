@@ -63,4 +63,28 @@ router.get('/admin/getRecentappointments', admin_Controller.getRecentAppointment
 
 router.get('/admin/getRecentPatients', admin_Controller.getRecentPatients);
 
+router.get('/reports/appointments', async (req, res) => {
+    try {
+      const appointments = await Appointment.findAll({
+        include: [
+          {
+            model: Patient,
+            as: 'Patient', // Match the alias defined in your association
+            attributes: ['name'], // Include only the fields you need
+          },
+          {
+            model: ClinicStaff,
+            as: 'StaffInCharge', // Match the alias defined in your association
+            attributes: ['name'], // Include only the fields you need
+          },
+        ],
+      });
+  
+      res.status(200).json(appointments); // Return the fetched data
+    } catch (error) {
+      console.error('Error fetching appointment reports:', error);
+      res.status(500).json({ error: 'Failed to fetch appointment reports' });
+    }
+  });
+
 module.exports = router;

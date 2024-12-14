@@ -43,9 +43,19 @@
     </aside>
 
     <main class="main-content">
-        <div class="sticky-header">
-            <h4>User Management</h4>    
+
+        <div class="top">
+             <div class="sticky-header">
+                 <h4>User Management</h4>    
+             </div>    
+
+             <!-- Add Search Field -->
+            <div class="search-container">
+                <span class="material-icons search-icon">search</span>
+                <input type="text" id="searchInput" placeholder="Search">
+            </div>               
         </div>
+       
        
 
         <div class="add-search">
@@ -56,13 +66,7 @@
                 </span> Add New User
             </button>
               
-            <!-- Add Search Field -->
-            <div class="search-container">
-                <span class="material-icons search-icon">search</span>
-                <input type="text" id="searchInput" placeholder="Search">
-            </div>
-     
-        
+            
 
            <!-- SEARCH Filter Dropdown -->
     <div class="filter-container">
@@ -171,34 +175,31 @@
                 </thead>
                 
               <tbody id="userTableBody"> 
-    <% users.forEach(user => { %>
-        <tr>
-            <td><%= user.Users_ID %></td>
-            <td><%= user.LastName %></td>
-            <td><%= user.FirstName %></td>
-            <td><%= new Date(user.Users_Birthdate).toLocaleDateString("en-US", { 
-                month: "2-digit", 
-                day: "2-digit", 
-                year: "numeric" 
-            }) %></td>
-            <td><%= user.Users_Gender %></td>
-            <td><%= user.ContactNumber %></td>
-            <td><%= user.Username %></td>
-            <td><%= user.Users_Status %></td>
-            <td>
-                <a href="/admin/editUser/<%= user.Users_ID %>" class="btn btn-edit">
-                    <span class="material-symbols-outlined">edit_square</span>
-                  </a>
-                  
-                <!-- <a href="/admin/deleteUser/" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a> -->
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.Users_ID %></td>
+                        <td><%= user.LastName %></td>
+                        <td><%= user.FirstName %></td>
+                        <td><%= new Date(user.Users_Birthdate).toLocaleDateString("en-US", { 
+                            month: "2-digit", 
+                            day: "2-digit", 
+                            year: "numeric" 
+                        }) %></td>
+                        <td><%= user.Users_Gender %></td>
+                        <td><%= user.ContactNumber %></td>
+                        <td><%= user.Username %></td>
+                        <td><%= user.Users_Status %></td>
+                        <td>
+                            <a href="/admin/editUser/<%= user.Users_ID %>" class="btn btn-edit">
+                                <span class="material-symbols-outlined">edit_square</span>
+                            </a>
+                            
+                            <!-- <a href="/admin/deleteUser/" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this user?')">Delete</a> -->
 
-            </td>
+                        </td>
 
-        
-
-            
-        </tr>
-    <% }) %>
+                    </tr>
+                <% }) %>
 </tbody>
 
             </table>

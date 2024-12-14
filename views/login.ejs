@@ -3,48 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Admin Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Admin Login</title>
     <link rel="stylesheet" href="/css/admin/login.css"> <!-- Link to the CSS file -->
 </head>
 <body>
-    <div class="container d-flex align-items-center justify-content-center vh-100">
-        <div class="row">
-            <div class="col-md-6 align-self-center">
-    
+    <div class="container">
+        <div class="content">
+            <div class="text-section">
                 <h1 class="heading">Faster Appointment, Efficient Aid</h1>
             </div>
 
-            <div class="col-md-6">
+            <div class="form-section">
                 <div class="login-card">
                     <form action="/login-user" method="POST">
                         <div class="form-group">
                             <label for="Username">Username</label>
-                            <input type="text" class="form-control" id="Username" name="Username" required>
+                            <input type="text" id="Username" name="Username" required>
                         </div>
                         <div class="form-group">
                             <label for="Password">Password</label>
-                            <input type="password" class="form-control" id="Password" name="Password" required>
+                            <input type="password" id="Password" name="Password" required>
                         </div>
 
                         <!-- Display error or success message -->
                         <% if (message) { %>
-                            <h4 class="text-danger"> <%= message %> </h4>
+                            <h4 class="text-danger"><%= message %></h4>
                         <% } %>
 
-                        <button type="submit" class="btn btn-primary btn-block"> Login</button>
-                        <div class="text-center mt-3">
-                            <a href="register"> Don't have an account?</a>
+                        <button type="submit" class="btn-primary">Login</button>
+                        <div class="text-center">
+                            <a href="register">Don't have an account?</a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

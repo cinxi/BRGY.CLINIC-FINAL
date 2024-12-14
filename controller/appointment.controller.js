@@ -289,6 +289,33 @@ const fetchApprovedAppointments = async (req, res) => {
 
 
 //fetch sa admin reportss
+const { Appointment } = require('../models'); // Adjust the path to your models folder
+
+const getAppointments = async (req, res) => {
+  try {
+    const appointments = await Appointment.findAll({
+      include: [
+        {
+          model: db.Patient,
+          as: 'Patient', // Match alias defined in association
+          attributes: ['name'], // Include only the required fields
+        },
+        {
+          model: db.ClinicStaff,
+          as: 'StaffInCharge', // Match alias defined in association
+          attributes: ['name'], // Include only the required fields
+        },
+      ],
+    });
+
+    res.status(200).json(appointments); // Send the data as JSON
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch appointments' });
+  }
+};
+
+
 
 
 // Fetch appointment counts by status
@@ -311,6 +338,10 @@ const fetchAppointmentMetrics = async (req, res) => {
 };
 
 
+// const appointments_view = (req, res) => {
+//     const staff = req.staff; 
+//     res.render("staff/appointment", { staff });
+// };
 
 
 module.exports = {
@@ -323,6 +354,7 @@ module.exports = {
     approveAppointment,
     markAsComplete,
     logs_view,
-    fetchAppointmentMetrics
+    fetchAppointmentMetrics,
+    getAppointments
     
 };

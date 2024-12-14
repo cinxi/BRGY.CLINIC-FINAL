@@ -49,38 +49,40 @@
         <section class="reports-metrics">
             <div class="metrics">
                 <div class="metrics-group">
-
-                   <div class="metric-box">
-                    <h6>Total Clinic Staff</h6>
-                    <div class="stat-number" id="totalStaffUsers">
-                        <span>Loading...</span>
+                    <div class="metric-box">
+                        <h6>Total Clinic Staff</h6>
+                        <div class="stat-number" id="totalStaffUsers">
+                            <span>Loading...</span>
+                        </div>
+                        <span class="material-symbols-outlined">group</span> 
                     </div>
-
-                    
-                    </div>
+                
                     <div class="metric-box">
                         <h6>Active Clinic Staff</h6>
-                    <div class="stat-number" id="totalActiveStaff">
-                        <span>Loading...</span>
-                    </div>
-                    </div> 
-                </div>
-                
-                <div class="metrics-group">
-                    <div class="metric-box">
-                        <h6>Registered Patients</h6>
-                    <div class="stat-number" id="totalPatients">
-                        <span>Loading...</span>
-                    </div>
+                        <div class="stat-number" id="totalActiveStaff">
+                            <span>Loading...</span>
+                        </div>
+                        <span class="material-symbols-outlined">people</span> 
                     </div>
 
                     <div class="metric-box">
-                         <h6>Active Patients</h6>
-                    <div class="stat-number" id="totalActivePatients">
-                        <span>Loading...</span>
+                        <h6>Registered Patients</h6>
+                        <div class="stat-number" id="totalPatients">
+                            <span>Loading...</span>
+                        </div>
+                        <span class="material-symbols-outlined">medical_services</span> 
                     </div>
+                
+                    <div class="metric-box">
+                        <h6>Active Patients</h6>
+                        <div class="stat-number" id="totalActivePatients">
+                            <span>Loading...</span>
+                        </div>
+                        <span class="material-symbols-outlined">face</span>
                     </div>
                 </div>
+        
+                
                 
             </div>
         </section>
@@ -89,14 +91,24 @@
          <div class="recent-container">
             <section class="recent-appointments">
                 <h4>Recent Appointments</h4>
-                <ul id="appointmentList">
-                    <li>Loading...</li>
-                </ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-appointments-list">
+                        <!-- JavaScript will populate this -->
+                    </tbody>
+                </table>
             </section>
+            
 
             <section class="recent-patients-container">
                 <div class="recent-patients">
-                    <h3>Recently Registered Patients</h3>
+                    <h4>Recently Registered Patients</h4>
                     <table>
                         <thead>
                             <tr>
@@ -165,28 +177,30 @@
             });
 
             //fetch recent appointments
-
             fetch('/admin/getRecentAppointments')
-            .then(response => response.json())
-            .then(data => {
-                const appointmentList = document.getElementById('appointmentList');
-                appointmentList.innerHTML = ''; // Clear existing content
-                if (data.length > 0) {
-                    data.forEach(appointment => {
-                        const listItem = document.createElement('li');
-                        listItem.textContent = `${appointment.patientName} - ${appointment.date} (${appointment.status})`;
-                        appointmentList.appendChild(listItem);
-                    });
-                } else {
-                    appointmentList.innerHTML = '<li>No recent appointments</li>';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching recent appointments:', error);
-                document.getElementById('appointmentList').innerHTML = '<li>Error loading appointments</li>';
-            });
+                .then(response => response.json())
+                .then(data => {
+                    const appointmentsList = document.getElementById('recent-appointments-list');
+                    appointmentsList.innerHTML = ''; // Clear existing content
+                    if (data.length > 0) {
+                        data.forEach(appointment => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${appointment.patientName}</td>
+                                <td>${appointment.date}</td>
+                                <td>${appointment.status}</td>
+                            `;
+                            appointmentsList.appendChild(row);
+                        });
+                    } else {
+                        appointmentsList.innerHTML = '<tr><td colspan="3">No recent appointments</td></tr>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching recent appointments:', error);
+                    document.getElementById('recent-appointments-list').innerHTML = '<tr><td colspan="3">Error loading appointments</td></tr>';
+                });
 
-            //fetch recent reg. patients
 
             // Fetch recent patients from the backend
         fetch('/admin/getRecentpatients')

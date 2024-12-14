@@ -45,12 +45,20 @@
 
         <!-- Search and Filter -->
         <div class="filter-section">
-            <input type="text" id="searchInput" placeholder="Search by Lastname" onkeyup="filterTable()">
-            <select id="statusFilter" onchange="filterTable()">
-                <option value="">Filter by Status: </option>
-                <option value="Active">Active</option>
-                <option value="Inactive">Inactive</option>
-            </select>
+
+            <div class="filter-search">
+                <input type="text" id="searchInput" placeholder="Search by Lastname" onkeyup="filterTable()">
+            </div>
+            <div class="filter-search">
+                <select id="statusFilter" onchange="filterTable()">
+                    <option value="">Filter by Status: </option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+            </div>
+            
+            
+            
         </div>
         
         <!-- Patient Records Table -->

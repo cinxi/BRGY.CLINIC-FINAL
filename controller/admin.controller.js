@@ -306,6 +306,66 @@ const getRecentAppointments = async (req, res) => {
         
 
 
+    //filter app.
+
+    const getFilteredAppointments = async (req, res) => {
+        try {
+            const filter = req.query.filter || 'daily'; // Default to daily if no filter is provided
+            const now = new Date();
+            let startDate, endDate;
+    
+            // Determine the date range based on the filter
+            switch (filter) {
+                case 'daily':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                    endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+                    break;
+                case 'weekly':
+                    const weekStart = now.getDate() - now.getDay(); // Sunday as the start of the week
+                    startDate = new Date(now.getFullYear(), now.getMonth(), weekStart);
+                    endDate = new Date(now.getFullYear(), now.getMonth(), weekStart + 7);
+                    break;
+                case 'monthly':
+                    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+                    endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+                    break;
+                default:
+                    return res.status(400).json({ error: 'Invalid filter value' });
+            }
+    
+            // Fetch appointments within the date range
+            const appointments = await models.Appointment.findAll({
+                where: {
+                    Appointment_Date: {
+                        [models.Sequelize.Op.between]: [startDate, endDate]
+                    }
+                },
+                include: [{
+                    model: models.Patient,
+                    as: 'Patient',
+                    attributes: ['Patient_FirstName', 'Patient_LastName']
+                }],
+                order: [['Appointment_Date', 'ASC'], ['Appointment_Time', 'ASC']]
+            });
+    
+            // Format the appointments for the response
+            const filteredAppointments = appointments.map(appointment => ({
+                id: appointment.Appointment_ID,
+                patientName: `${appointment.Patient.Patient_FirstName} ${appointment.Patient.Patient_LastName}`,
+                date: new Date(appointment.Appointment_Date).toLocaleDateString("en-CA"),
+                time: appointment.Appointment_Time,
+                purpose: appointment.Appointment_Purpose,
+                status: appointment.Appointment_Status
+            }));
+    
+            res.json(filteredAppointments);
+        } catch (error) {
+            console.error('Error fetching filtered appointments:', error);
+            res.status(500).json({ error: 'Failed to fetch appointments' });
+        }
+    };
+    
+
 
 module.exports = {
     Admindashboard_view,
@@ -325,5 +385,6 @@ module.exports = {
     getTotalActiveClinicStaff,
     getTotalActivePatients,
     getRecentAppointments,
-    getRecentPatients    
+    getRecentPatients,
+    getFilteredAppointments
 };

@@ -212,11 +212,11 @@ body {
 }
 
 .btn-edit {
-    color: rgb(21, 160, 214); /* Default color */
-    font-size: x-small; /* Adjust icon size */
-    background: none; /* Remove button background */
-    border: none; /* Remove button border */
-    cursor: pointer; /* Show pointer on hover */
+    color: rgb(21, 160, 214); 
+    font-size: x-small; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -224,8 +224,8 @@ body {
   }
   
   .btn-edit:hover {
-    color: rgb(0, 123, 255); /* Change color on hover */
-    transform: scale(1.1); /* Slightly enlarge icon on hover */
+    color: rgb(0, 123, 255); 
+    transform: scale(1.1); 
   }
   
 
@@ -248,8 +248,10 @@ table{
 .table-responsive {
     overflow-x: auto; 
     max-height: calc(85vh - 40px);
+    height: 50rem;
     width: 100%;
     padding-bottom: 10px;
+    margin-top: 10px;
 }
 
 .reports-table {
@@ -280,7 +282,7 @@ table{
     white-space: nowrap; 
 } */
 .reports-table tbody {
-    max-height: 50vh; /* Limit table body height for scrolling */
+    max-height: 60vh; /* Limit table body height for scrolling */
     overflow-y: auto;
     display: block; /* Allow independent scrolling */
 }
@@ -474,10 +476,13 @@ form button:hover {
     margin-bottom: 15px;
 }
 
+.filter-section{
+    display: flex;
+    justify-content: space-between;
+}
 
 /* Styles for Search Container */
 .search-container {
-    display: flex-end;
     align-items: center;
     margin-top: 10px;
 
@@ -527,9 +532,9 @@ form button:hover {
 
 /* Filter Container */
 .filter-container {
-    margin: 10px 0;
-    display: flex;
+    justify-content: flex-end; 
     align-items: center;
+    margin: 10px 0;
 }
 
 /* Label Styling */
@@ -552,13 +557,13 @@ form button:hover {
 #statusFilter:focus {
     outline: none;
     border-color: #176B87;; /* Change the border color when focused */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Add a light shadow for focus */
+    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
 }
 
 #searchInput:focus {
     outline: none;
     border-color: #176B87;; /* Change the border color when focused */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Add a light shadow for focus */
+    box-shadow: 0 0 5px rgba(52, 121, 144, 0.5); /* Add a light shadow for focus */
 }
 
 

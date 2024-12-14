@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'Patient'
       });
     }
+
+
   }
+
+
 
   Appointment.init({
     Appointment_ID: {
@@ -58,6 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Appointment',
     timestamps: true // Ensure timestamps are enabled
   });
+
 
   return Appointment;
 };

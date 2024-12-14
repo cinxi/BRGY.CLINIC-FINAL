@@ -250,6 +250,7 @@ table{
     max-height: calc(85vh - 40px);
     width: 100%;
     padding-bottom: 10px;
+    height: 50rem;
 }
 
 .reports-table {
@@ -456,15 +457,10 @@ form button:hover {
 }
 
 
-
-
 .form-text{
     font-size: x-small;
     color: darkgray;
 }
-
-
-
 
 
 .add-search {
@@ -474,6 +470,13 @@ form button:hover {
     margin-bottom: 15px;
 }
 
+/* SEARCH UG FILTER */
+
+.filter-section{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 
 /* Styles for Search Container */
 .search-container {

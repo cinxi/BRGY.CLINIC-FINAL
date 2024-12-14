@@ -47,14 +47,19 @@
 
             <!-- Search and Filter -->
             <div class="filter-section">
-                <input type="text" id="searchInput" placeholder="Search by Patient Name" onkeyup="filterTable()">
-                <select id="statusFilter" onchange="filterTable()">
-                    <option value=""> Filter by Status: </option>
-                    <option value="Approved">Approved</option>
-                    <option value="Pending">Pending</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
+                <div class="filter-search">
+                    <input type="text" id="searchInput" placeholder="Search by Patient Name" onkeyup="filterTable()">
+                </div>
+                <div class="filter-search">
+                    <select id="statusFilter" onchange="filterTable()">
+                        <option value=""> Filter by Status: </option>
+                        <option value="Approved">Approved</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
                 </select>
+                </div>
+                
             </div>
 
             <!-- Table to Display Appointments -->

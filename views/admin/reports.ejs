@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Reports</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="/css/admin/reports.css"> 
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="/css/admin/reports.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <!-- Header -->
     <div class="header">
@@ -31,8 +34,10 @@
         <ul class="sidebar-links">
             <div class="menu-separator"></div>
             <li><a href="Admindashboard"><span class="material-symbols-outlined">dashboard</span> Dashboard</a></li>
-            <li><a href="usermanagement"><span class="material-symbols-outlined">manage_accounts</span>User Management</a></li>
-            <li><a href="patients"><span class="material-symbols-outlined"> supervisor_account </span>Patients Record</a></li>
+            <li><a href="usermanagement"><span class="material-symbols-outlined">manage_accounts</span>User
+                    Management</a></li>
+            <li><a href="patients"><span class="material-symbols-outlined"> supervisor_account </span>Patients
+                    Record</a></li>
             <li><a href="logs"><span class="material-symbols-outlined"> pending_actions </span>Logs</a></li>
             <li><a href="reports"><span class="material-symbols-outlined"> insert_chart </span> Reports</a></li>
             <li><a href="/login"><span class="material-symbols-outlined">logout</span>Logout</a></li>
@@ -41,26 +46,27 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="sticky-header">
-            <h2>Appointment Reports</h2>
-        </div>
+        <div class="container">
+            <div class="sticky-header">
+                <h2>Appointment Reports</h2>
+            </div>
 
-        <!-- Metrics Section -->
-        <section class="reports-metrics">
-            <div class="metrics">
-                <div class="metrics-group">
-                   <div class="metric-box">
-                    <h6>Approved Appointments</h6>
-                    <p id="approved-count">Loading...</p>
-                   </div>
 
-                   <div class="metric-box">
-                       <h6>Pending Appointments</h6>
-                       <p id="pending-count">Loading...</p>
-                   </div> 
-                </div>
+            <!-- Metrics Section -->
+                <div class="metrics">
 
-                <div class="metrics-group">
+                    <div class="metric-box">
+                        <h6>Approved Appointments</h6>
+                        <p id="approved-count">Loading...</p>
+                    </div>
+
+                    <div class="metric-box">
+                        <h6>Pending Appointments</h6>
+                        <p id="pending-count">Loading...</p>
+                    </div>
+
+
+
                     <div class="metric-box">
                         <h6>Cancelled Appointments</h6>
                         <p id="cancelled-count">Loading...</p>
@@ -69,21 +75,54 @@
                         <h6>Completed Appointments</h6>
                         <p id="completed-count">Loading...</p>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Bar Graph Section -->
-        <section class="reports-graph">
-            <canvas id="appointmentsBarChart"></canvas>
-        </section>
+                </div>
+
+
+            <!-- Bar Graph Section -->
+            <section class="reports-graph">
+                <canvas id="appointmentsBarChart"></canvas>
+            </section>
+
+        </div>
+
+        <div class="container-two" style="display: none;">
+            <div class="filter-section">
+                <label for="dateFilter">Filter by:</label>
+                <select id="dateFilter">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+
+            <table class="appointment-table">
+                <thead>
+                    <tr>
+                        <th>Appointment ID</th>
+                        <th>Appointment Date</th>
+                        <th>Patient Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="appointment-data">
+                    <!-- Appointment rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+
     </main>
 
-    
+
     <!-- Script to Fetch Data and Render Graph -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            fetch('/api/appointments/metrics') 
+            fetch('/api/appointments/metrics')
                 .then(response => response.json())
                 .then(data => {
                     // Update Metrics Counts
@@ -151,6 +190,52 @@
                     console.error("Error fetching appointment metrics:", error);
                 });
         });
+
+        ////fetchuuu appointments
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const dateFilter = document.getElementById("dateFilter");
+            const appointmentData = document.getElementById("appointment-data");
+
+            // Function to fetch and display data
+            const fetchAppointments = (filter) => {
+                fetch(`/api/appointments?filter=${filter}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear existing rows
+                        appointmentData.innerHTML = "";
+
+                        // Populate table with new data
+                        data.forEach(appointment => {
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${appointment.id}</td>
+                                <td>${appointment.date}</td>
+                                <td>${appointment.patient_name}</td>
+                                <td>${appointment.status}</td>
+                            `;
+                            appointmentData.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching appointments:", error);
+                        appointmentData.innerHTML = "<tr><td colspan='5'>Failed to load data.</td></tr>";
+                    });
+            };
+
+            // Initial fetch for daily data
+            fetchAppointments("daily");
+
+            // Update table on filter change
+            dateFilter.addEventListener("change", (e) => {
+                const selectedFilter = e.target.value;
+                fetchAppointments(selectedFilter);
+            });
+        });
+
+
+
     </script>
 </body>
+
 </html>

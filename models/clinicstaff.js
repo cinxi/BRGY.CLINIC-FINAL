@@ -49,6 +49,6 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true // Ensure timestamps are enabled
       });
   
-    
+
     return ClinicStaff;
 };

@@ -100,6 +100,8 @@ sequelize.authenticate()
     });
 
 
+    
+
 
 // Add sequelize instance and Sequelize constructor to db object
 db.sequelize = sequelize;
